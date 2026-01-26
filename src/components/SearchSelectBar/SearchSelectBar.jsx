@@ -60,11 +60,9 @@ const SearchSelectBar = (props) => {
         debouceTimerRef.current = setTimeout(() => {
             getCity(value, 5)
                 .then(res => {
-                    console.log(res);
                     setSugestion(Array.isArray(res) ? res : []);
                 })
                 .catch((e) => {
-                    console.error('Ошибка при загрузке городов:', e);
                     setSugestion([]);
                 })
             debouceTimerRef.current = null;
