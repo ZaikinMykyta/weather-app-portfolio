@@ -8,6 +8,6 @@ export default defineConfig({
   // Для GitHub Pages: замените 'wheather-portfolio-app' на имя вашего репозитория
   // Если репозиторий называется username.github.io, используйте base: '/'
   base: process.env.NODE_ENV === 'production' 
-    ? (process.env.VITE_BASE_PATH || '/wheather-portfolio-app/') 
+    ? (process.env.VITE_BASE_PATH || '/wheather-app-portfolio/') 
     : '/',
 })
