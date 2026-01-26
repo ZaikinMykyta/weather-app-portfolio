@@ -1,7 +1,7 @@
 const WeatherService = () => {
     const _apiCurrentBase = 'https://api.openweathermap.org/data/2.5/weather?';
-    const _apiWeekBase = 'http://api.openweathermap.org/data/2.5/forecast/daily?';
-    const _apiDecoderBase = 'http://api.openweathermap.org/geo/1.0/direct?';
+    const _apiWeekBase = 'https://api.openweathermap.org/data/2.5/forecast/daily?';
+    const _apiDecoderBase = 'https://api.openweathermap.org/geo/1.0/direct?';
 
     const _apiKey = '5d44c2001b79d82f32494fb3b6cd271f';
 

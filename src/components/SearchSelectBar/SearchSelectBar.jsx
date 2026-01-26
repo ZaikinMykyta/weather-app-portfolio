@@ -59,8 +59,14 @@ const SearchSelectBar = (props) => {
         }
         debouceTimerRef.current = setTimeout(() => {
             getCity(value, 5)
-                .then(res => {console.log(res); setSugestion(res)})
-                .catch((e) => setSugestion(e.message))
+                .then(res => {
+                    console.log(res);
+                    setSugestion(Array.isArray(res) ? res : []);
+                })
+                .catch((e) => {
+                    console.error('Ошибка при загрузке городов:', e);
+                    setSugestion([]);
+                })
             debouceTimerRef.current = null;
         },DEBOUNCE_MS)
     }
@@ -101,14 +107,14 @@ const SearchSelectBar = (props) => {
                         rounded-2xl" 
                         onChange={onCitySearch}/>
                 <ul className='flex flex-col'>
-                    { sugestion.map((item, i) => {
+                    { Array.isArray(sugestion) && sugestion.length > 0 ? sugestion.map((item, i) => {
                         return <li key={i} 
                                     className='mb-5 py-2 sm:py-0' 
                                     onClick={() => {props.onCitySelected(item); ChooseCity(classes); props.onCardShow(false)}}
                                     >
                                         {item.name}, {item.country}, {item.state}
                                 </li>
-                    })}
+                    }) : null}
                 </ul>
             </div>
         </div>
