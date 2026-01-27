@@ -13,14 +13,14 @@ const WeatherService = () => {
     const getCurrentWheather = async (lat, lon) => {
         const res = await fetch(`${_apiCurrentBase}lat=${lat}&lon=${lon}&appid=${_apiKey}&units=metric`);
         const data = await res.json();
-        // return data;
         return _transformCurrentWeather(data);
     }
 
     const getWeeklyWheather = async (lat, lon, cnt = 7) => {
         const res = await fetch(`${_apiWeekBase}lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${_apiKey}&units=metric`)
         // console.log(res);
-        return res.json();
+        const data = await res.json();
+        return data;
     }
 
     const _transformCurrentWeather = (props) => {

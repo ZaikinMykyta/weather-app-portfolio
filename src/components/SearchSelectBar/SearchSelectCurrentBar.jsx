@@ -3,7 +3,7 @@ import WeatherService from '../../services/WheatherService';
 
 const {getCity} = WeatherService();
 
-const SearchSelectBar = (props) => {
+const SearchSelectCurrentBar = (props) => {
 
     const [showCity, setShowCity] = useState(false);
     const [classes, setClasses] = useState('overflow-hidden hidden');
@@ -16,29 +16,10 @@ const SearchSelectBar = (props) => {
     const ChooseCity = () => {
 
         if(!showCity) {
-            setClasses(`overflow-visible 
-                visible 
-                absolute 
-                top-20
-                left-2
-                right-2
-                sm:right-auto
-                sm:left-8
-                w-[calc(100%-0.2rem)]
-                sm:w-[19vw]
-                max-w-[360px]
-                text-white 
-                flex 
-                flex-col 
-                gap-5
-                px-4
-                sm:px-5
-                pb-5
-                bg-[#2F2F2F] 
-                border-[#2F2F2F]
-                rounded-lg
-                z-15
-                `);
+            setClasses(`overflow-visible visible absolute top-20
+                left-2 right-2 sm:right-auto sm:left-8 w-[calc(100%-0.2rem)]
+                sm:w-[19vw] max-w-[360px] text-white flex flex-col gap-5
+                px-4 sm:px-5 pb-5 bg-[#2F2F2F] border-[#2F2F2F] rounded-lg z-15`);
         } else {
             setClasses('overflow-hidden hidden');
         }
@@ -62,7 +43,7 @@ const SearchSelectBar = (props) => {
                 .then(res => {
                     setSugestion(Array.isArray(res) ? res : []);
                 })
-                .catch((e) => {
+                .catch(() => {
                     setSugestion([]);
                 })
             debouceTimerRef.current = null;
@@ -70,21 +51,9 @@ const SearchSelectBar = (props) => {
     }
 
     return (
-    <div className="flex 
-            w-full 
-            px-4 
-            sm:px-6 
-            max-sm:px-8
-            md:px-10 
-            pr-4 
-            sm:pr-5 
-            items-center 
-            justify-between">
-        <div className="flex 
-            flex-col 
-            items-start 
-            justify-start
-            gap-2"
+    <div className="flex w-full px-4 sm:px-6 max-sm:px-8md:px-10 
+            pr-4 sm:pr-5 items-center justify-between">
+        <div className="flex flex-col px-3 items-start justify-start gap-2"
             >
             <div onClick={() => {ChooseCity(classes)}}>
                 <div className="text-white">
@@ -98,11 +67,9 @@ const SearchSelectBar = (props) => {
                 <input type="text" 
                         placeholder="Search" 
                         value={searchCity}
-                        className="w-full 
-                        pl-5 
+                        className="w-full pl-5 
                         shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)] 
-                        mt-4
-                        rounded-2xl" 
+                        mt-4 rounded-2xl" 
                         onChange={onCitySearch}/>
                 <ul className='flex flex-col'>
                     { Array.isArray(sugestion) && sugestion.length > 0 ? sugestion.map((item, i) => {
@@ -116,14 +83,8 @@ const SearchSelectBar = (props) => {
                 </ul>
             </div>
         </div>
-        <div className="w-[4vh] 
-             h-[4vh] 
-             cursor-pointer 
-             bg-green-500 
-             rounded-[35%] 
-             flex 
-             items-center 
-             justify-center"
+        <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
+             rounded-[35%] flex items-center justify-center"
              onClick={() => {props.onRequest(props.city.lat, props.city.lon); props.onShowSpinner(true)}}>
             <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
         </div>
@@ -131,4 +92,4 @@ const SearchSelectBar = (props) => {
     )
 };
 
-export default SearchSelectBar;
+export default SearchSelectCurrentBar;

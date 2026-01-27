@@ -1,6 +1,19 @@
-import SearchSelectBar from '../SearchSelectBar/SearchSelectBar';
+import SearchSelectCurrentBar from '../SearchSelectBar/SearchSelectCurrentBar';
+import SearchSelectWeeklyBanner from '../SearchSelectBar/SearchSelectWeeklyBanner';
 
 const SearchBanner = (props) => {
+
+    const SearchCurrentBanner = props.weatherSwitch === 0 ? <SearchSelectCurrentBar onCardShow={props.onCardShow}
+                                onShowSpinner={props.onShowSpinner} 
+                                onCitySelected={props.onCitySelected} 
+                                city={props.city} 
+                                onRequest={props.onRequest}/> : null;
+
+    const SearchWeeklyBanner = props.weatherSwitch === 1 ? <SearchSelectWeeklyBanner onCardShow={props.onCardShow}
+                                                            onShowSpinner={props.onShowSpinner} 
+                                                            onCitySelected={props.onCitySelected} 
+                                                            city={props.city} 
+                                                            onRequest={props.onRequestByName}/> : null;
 
     return(
         <div className="
@@ -52,11 +65,18 @@ const SearchBanner = (props) => {
                  -mt-12
                  z-10
                  ">
-                <SearchSelectBar onCardShow={props.onCardShow}
+                {/* <SearchSelectCurrentBar onCardShow={props.onCardShow}
                                 onShowSpinner={props.onShowSpinner} 
                                 onCitySelected={props.onCitySelected} 
                                 city={props.city} 
                                 onRequest={props.onRequest}/>
+                <SearchSelectWeeklyBanner onCardShow={props.onCardShow}
+                                onShowSpinner={props.onShowSpinner} 
+                                onCitySelected={props.onCitySelected} 
+                                city={props.city} 
+                                onRequest={props.onRequest}/> */}
+                {SearchCurrentBanner}
+                {SearchWeeklyBanner}
             </div>
         </div>
     )

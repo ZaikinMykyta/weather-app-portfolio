@@ -1,4 +1,4 @@
-const WheatherCards = ({city}) => {
+const WheatherCurrentCard = ({city}) => {
 
     console.log(city);
     
@@ -106,4 +106,4 @@ const WheatherCards = ({city}) => {
     )
 };
 
-export default WheatherCards;
+export default WheatherCurrentCard;
