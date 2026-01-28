@@ -6,7 +6,7 @@ import WeatherService from "./services/WheatherService";
 import AppHeader from "./components/AppHeader/AppHeader";
 import SearchBanner from './components/SearchBanner/SearchBanner'
 import WheatherCurrentCard from "./components/WheatherCards/WheatherCurrentCard";
-import WheatherWeeklyCards from './components/WheatherCards/WheatherWeeklyCards';
+import WeatherWeeklyCards from './components/WheatherCards/WheatherWeeklyCards';
 import Spinner from "./components/Spinner/Spinner";
 
 function App() {
@@ -34,7 +34,7 @@ function App() {
         setShowSpinner(bool);
     }
 
-    const onRequestByName = (city) => {
+    const onRequestByName = (city, days=2) => {
         if(city.length <= 1) {
             return
         } else {
@@ -52,7 +52,7 @@ function App() {
             } else {
                 getCity(city, 1)
                     .then((data) => {
-                        getWeeklyWheather(data[0].lat, data[0].lon, 2)
+                        getWeeklyWheather(data[0].lat, data[0].lon, days)
                             .then((data) => {
                                 onCitySelected(data);
                                 onShowSpinner(false);
@@ -74,12 +74,18 @@ function App() {
 
     
     const currentCard = showCard && !showSpinner ? <WheatherCurrentCard city={city}/> : null
-    const weeklyCard = showCard && !showSpinner ? <WheatherWeeklyCards city={city}/> : null
+    const weeklyCard = showCard && !showSpinner ? <WeatherWeeklyCards city={city}/> : null
     const spinner = showSpinner ? <Spinner/> : null
 
     return (
         <Router>
-            <AppHeader city={city} weatherSwitch={weatherSwitch} onWeatherSwitch={onWeatherSwitch} onRequest={onRequestByName}/>
+            <AppHeader city={city} 
+                        showCard={showCard} 
+                        onCardShow={onCardShow} 
+                        weatherSwitch={weatherSwitch} 
+                        onWeatherSwitch={onWeatherSwitch} 
+                        onRequest={onRequestByName}
+                        setCity={setCity}/>
             <main className="flex flex-col items-center w-full min-h-screen px-2 sm:px-4 box-border">
                 <SearchBanner onShowSpinner={onShowSpinner} 
                                 onCitySelected={onCitySelected} 

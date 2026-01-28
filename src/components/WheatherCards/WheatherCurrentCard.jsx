@@ -26,8 +26,7 @@ const WheatherCurrentCard = ({city}) => {
             return 'from-slate-700 via-orange-800 to-slate-800'; // Жарко - темно-оранжевый
         }
     };
-    
-    
+        
     return (
         <div className="flex justify-center items-center mt-6 sm:mt-8 px-3 sm:px-4 z-0 w-full max-w-5xl mx-auto">
             <div className={`
@@ -51,7 +50,7 @@ const WheatherCurrentCard = ({city}) => {
                 <div className="flex justify-between items-start mb-4 sm:mb-6 relative z-10">
                     {/* Левая часть: Город и температура */}
                     <div className="flex flex-col min-w-0">
-                        <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.name}, {city.country}</p>
+                        <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.name}, {city.country}, {city.timezone}</p>
                         <p className="text-4xl sm:text-5xl font-bold text-white">{city.temp}</p>
                     </div>
                     
@@ -85,8 +84,29 @@ const WheatherCurrentCard = ({city}) => {
                         <p className="text-base sm:text-lg font-semibold text-white">{city.humidity}</p>
                     </div>
                     <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                        <p className="text-xs text-white/60 mb-1">Visibility</p>
+                        <p className="text-base sm:text-lg font-semibold text-white">{city.visibility}</p>
+                    </div>
+                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                        <p className="text-xs text-white/60 mb-1">Sunset</p>
+                        <p className="text-base sm:text-lg font-semibold text-white mb-2">{city.sunset != null ? formatDate(city.sunset) : '—'}</p>
+                        <p className="text-xs text-white/60 mb-1">Sunrise</p>
+                        <p className="text-base sm:text-lg font-semibold text-white">{city.sunrise != null ? formatDate(city.sunrise) : '—'}</p>
+                    </div>
+                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
                         <p className="text-xs text-white/60 mb-1">Wind</p>
                         <p className="text-base sm:text-lg font-semibold text-white">{city.wind_speed}</p>
+                        {city.wind_deg != null && (
+                            <div className="flex items-center gap-2 mt-2">
+                                <img
+                                    src="https://www.freeiconspng.com/uploads/arrow-icon-28.png"
+                                    alt=""
+                                    className="w-6 h-6 object-contain"
+                                    style={{ transform: `rotate(${city.wind_deg}deg)` }}
+                                />
+                                <span className="text-base sm:text-lg font-semibold text-white">{city.wind_deg}°</span>
+                            </div>
+                        )}
                     </div>
                 </div>
 

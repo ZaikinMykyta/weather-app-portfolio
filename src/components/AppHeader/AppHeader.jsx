@@ -5,6 +5,8 @@ function AppHeader(props) {
 
     const onRequestTypeChange = () => {
         props.onWeatherSwitch(props.weatherSwitch === 0 ? 1 : 0);
+        props.onCardShow(false)
+        props.setCity({})
     }
 
     return (

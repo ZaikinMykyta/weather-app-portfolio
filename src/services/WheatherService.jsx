@@ -42,7 +42,7 @@ const WeatherService = () => {
             visibility: props.visibility / 1000 + 'km',
             type: props.weather[0].main,
             wind_speed: props.wind.speed + 'm/s',
-            wind_deg: props.wind.deg + '°'
+            wind_deg: props.wind.deg
         }
     }
 
