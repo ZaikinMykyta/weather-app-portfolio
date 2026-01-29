@@ -5,24 +5,22 @@ const WeatherWeeklyCards = ({city}) => {
         return null;
     }
 
-    // Функция для форматирования даты
     const formatDate = (timestamp) => {
         const date = new Date(timestamp * 1000);
         const options = {  month: 'short', year:'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
         return date.toLocaleDateString('en-US', options);
     };
 
-    // Выбор градиента в зависимости от температуры
     const getGradient = (temp) => {
         const tempNum = parseFloat(temp);
         if (tempNum < 10) {
-            return 'from-slate-700 via-blue-800 to-slate-800'; // Холодно - темно-синий
+            return 'from-slate-700 via-blue-800 to-slate-800';
         } else if (tempNum < 20) {
-            return 'from-slate-700 via-cyan-800 to-slate-800'; // Прохладно - темно-бирюзовый
+            return 'from-slate-700 via-cyan-800 to-slate-800';
         } else if (tempNum < 27) {
-            return 'from-slate-700 via-purple-800 to-slate-800'; // Тепло - темно-фиолетовый
+            return 'from-slate-700 via-purple-800 to-slate-800';
         } else {
-            return 'from-slate-700 via-orange-800 to-slate-800'; // Жарко - темно-оранжевый
+            return 'from-slate-700 via-orange-800 to-slate-800';
         }
     };
           
@@ -87,22 +85,43 @@ const WeatherWeeklyCards = ({city}) => {
                                 <p className="text-xs text-white/60 mb-1">Sunset</p>
                                 <p className="text-base sm:text-lg font-semibold text-white">{item.sunset ? formatDate(item.sunset) : '—'}</p>
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl col-span-2 p-3 sm:p-4 border border-white/5 shadow-md">
                                 <p className="text-xs text-white/60 mb-1">Wind</p>
                                 <p className="text-base sm:text-lg font-semibold text-white">{item.speed} m/s</p>
                                 {item.deg != null && (
-                                    <div className="flex items-center gap-2 mt-2">
-                                        <img
-                                            src="https://www.freeiconspng.com/uploads/arrow-icon-28.png"
-                                            alt=""
-                                            className="w-6 h-6 object-contain"
-                                            style={{ transform: `rotate(${item.deg}deg)` }}
-                                        />
-                                        <span className="text-base sm:text-lg font-semibold text-white">{item.deg}°</span>
+                                    <div className="grid grid-rows-3 grid-cols-3 items-center justify-items-center">
+                                        <div style={{gridColumn: 2}} className="text-2xl">
+                                            N
+                                        </div>
+                                        <div style={{gridColumn: 3, gridRow: 2}} className="text-2xl">
+                                            E
+                                        </div>
+                                        <div style={{gridColumn: 2, gridRow: 3}} className="text-2xl">
+                                            S
+                                        </div>
+                                        <div style={{gridColumn: 1, gridRow: 2}} className="text-2xl">
+                                            W
+                                        </div>
+                                        <div style={{gridColumn: 2, gridRow: 2}} className="justify-items-center">
+                                            <div className="flex justify-center"
+                                                 style={{ transform: `rotate(${item.deg}deg)` }}>
+                                                <div className="relative left-[0.9vw] top-[-0.5vh] bg-black w-[1vw] rounded-2xl h-[3vh] rotate-45"></div>
+                                                <div className="flex flex-col justify-center items-center">
+                                                    <div className="bg-black rounded-t-2xl w-[1vw] h-[2.7vh]"></div>
+                                                    <span className="relative top-[0.1vh] text-base sm:text-lg font-semibold text-white"
+                                                            style={{ transform: `rotate(${-item.deg}deg)` }}>
+                                                    {item.deg}°</span>
+                                                    <div className="bg-black rounded-b-2xl w-[1vw] h-[3vh]"></div>
+                                                </div>
+                                                <div className="relative left-[-0.9vw] top-[-0.5vh] bg-black w-[1vw] h-[3vh] rounded-2xl rotate-[-45deg]"></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 )}
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md"
+                            style={{gridColumn: 3, gridRow: 2}}
+                                >
                                 <p className="text-xs text-white/60 mb-1">Temps:</p>
                                 <p className="text-base sm:text-lg font-semibold text-white">Morning {item.temp.morn} ℃</p>
                                 <p className="text-base sm:text-lg font-semibold text-white">Day {item.temp.day} ℃</p>

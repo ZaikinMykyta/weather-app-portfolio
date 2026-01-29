@@ -6,6 +6,7 @@ const {getCity} = WeatherService();
 const SearchSelectWeeklyBanner = (props) => {
 
     const [showCity, setShowCity] = useState(false);
+    const [showDays, setShowDays] = useState(false);
     const [classes, setClasses] = useState('overflow-hidden hidden');
     const [daysClasses, setDaysClasses] = useState('overflow-hidden hidden')
     const [days, setDays] = useState(0);    
@@ -16,7 +17,6 @@ const SearchSelectWeeklyBanner = (props) => {
     const DEBOUNCE_MS = 1500;
 
     const ChooseCity = () => {
-
         if(!showCity) {
             setClasses(`overflow-visible visible absolute top-20
                 left-2 right-2 sm:right-auto sm:left-8 w-[calc(100%-0.2rem)]
@@ -26,17 +26,39 @@ const SearchSelectWeeklyBanner = (props) => {
             setClasses('overflow-hidden hidden');
         }
         setShowCity(!showCity);
+
     }
 
     const onDays = () => {
-        if(daysClasses == 'overflow-hidden hidden') {
+        if(!showDays) {
             setDaysClasses(`overflow-visible visible absolute top-20
-                left-2 right-2 sm:right-auto sm:left-8 w-[calc(100%-0.2rem)]
+                left-10 right-10 sm:right-auto sm:left-8 w-[calc(100%-0.2rem)]
                 sm:w-[19vw] max-w-[360px] text-white flex flex-col gap-5
                 px-4 sm:px-5 pb-5 bg-[#2F2F2F] border-[#2F2F2F] rounded-lg z-15`)
         } else {
             setDaysClasses('overflow-hidden hidden')
         }
+        setShowDays(!showDays);
+    }
+
+    const onRequestMenus = (target) => {
+
+        if(target.childNodes[0].textContent.includes('Location') || target.childNodes[0].textContent.includes('city')) {
+            if(!showDays) {
+                ChooseCity(classes);
+            } else {
+                onDays(daysClasses);
+                ChooseCity(classes);
+            }
+        } else if(target.childNodes[0].textContent.toLowerCase().includes('days')) {
+            if(!showCity) {
+                onDays(daysClasses);
+            } else {
+                onDays(daysClasses);
+                ChooseCity(classes);
+            }
+        }
+            
     }
 
     const onCitySearch = (e) => {
@@ -69,7 +91,7 @@ const SearchSelectWeeklyBanner = (props) => {
         <div className="flex flex-col px-3 items-start justify-startgap-2"
             >
             <div className="flex items-center gap-5 justify-between">
-                <div onClick={() => {ChooseCity(classes)}}>
+                <div onClick={(e) => { onRequestMenus(e.target)}}>
                     <div className="text-white">
                         Location
                     </div>
@@ -77,12 +99,12 @@ const SearchSelectWeeklyBanner = (props) => {
                         {props.city.name ? props.city.name : 'Choose your city'}
                     </div>
                 </div>
-                <div onClick={() => {onDays(daysClasses)}}>
+                <div onClick={(e) => {onRequestMenus(e.target)}}>
                     <div className="text-white">
                         Days
                     </div>
                     <div className="text-white">
-                        <p>{days}</p>
+                        <p>{days === 0 ? 'Choose days' : days}</p>
                     </div>
                 </div>
             </div>
@@ -119,15 +141,13 @@ const SearchSelectWeeklyBanner = (props) => {
                                 }
                             }}/>
                 <ul>
-                    <li value={2} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden');}}>2</li>
-                    <li value={3} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>3</li>
-                    <li value={4} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>4</li>
-                    <li value={5} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>5</li>
-                    <li value={6} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>6</li>
-                    <li value={7} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>7</li>
-                    <li value={8} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>8</li>
-                    <li value={9} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>9</li>
-                    <li value={10} onClick={(e) => {setDays(e.target.value); setDaysClasses('overflow-hidden hidden')}}>10</li>
+                    {Array.from({length: 11}, (_, i) => {
+                        if(i === 0 || i === 1) {
+                            return null;
+                        } else {
+                            return <li key={i} value={i} onClick={(e) => {setDays(e.target.value); props.onCardShow(false);setDaysClasses('overflow-hidden hidden')}}>{i}</li>
+                        }
+                    })}
                 </ul>
             </div>
         </div>
