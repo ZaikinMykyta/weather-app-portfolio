@@ -8,12 +8,15 @@ import SearchBanner from './components/SearchBanner/SearchBanner'
 import WheatherCurrentCard from "./components/WheatherCards/WheatherCurrentCard";
 import WeatherWeeklyCards from './components/WheatherCards/WheatherWeeklyCards';
 import Spinner from "./components/Spinner/Spinner";
+import RecentlyUsed from "./components/RecentlyUsed/RecentlyUsed";
 
 function App() {
 
     const [city, setCity] = useState({});
     const [showCard, setShowCard] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
+    const [recentlyUsed, setRecentlyUsed] = useState([]);
+    const [recentlyUsedObj, setRecentlyUsedObj] = useState({days: '', name: '', type: ''});
     const [weatherSwitch, setWeatherSwitch] = useState(0);
 
     const {getCity, getCurrentWheather, getWeeklyWheather} = WeatherService();
@@ -24,6 +27,15 @@ function App() {
 
     const onWeatherSwitch = (switchValue) => {
         setWeatherSwitch(switchValue);
+    }
+
+    const onRecentlyUsed = (newItem) => {
+        setRecentlyUsed([...recentlyUsed, newItem])
+        window.localStorage.setItem('recently used', JSON.stringify(recentlyUsed));
+    }
+
+    const recentlyUsedPrep = (newKey, newVal) => {
+        setRecentlyUsedObj({...recentlyUsedObj, [newKey]: newVal});
     }
 
     const onCardShow = (bool) => {
@@ -79,26 +91,32 @@ function App() {
 
     return (
         <Router>
-            <AppHeader city={city} 
-                        showCard={showCard} 
-                        onCardShow={onCardShow} 
-                        weatherSwitch={weatherSwitch} 
-                        onWeatherSwitch={onWeatherSwitch} 
+            <AppHeader city={city}
+                        showCard={showCard}
+                        onCardShow={onCardShow}
+                        weatherSwitch={weatherSwitch}
+                        onWeatherSwitch={onWeatherSwitch}
                         onRequest={onRequestByName}
-                        setCity={setCity}/>
+                        setCity={setCity}
+                        recentlyUsedObj={recentlyUsedObj}
+                        recentlyUsedPrep={recentlyUsedPrep}/>
             <main className="flex flex-col items-center w-full min-h-screen px-2 sm:px-4 box-border">
-                <SearchBanner onShowSpinner={onShowSpinner} 
-                                onCitySelected={onCitySelected} 
-                                city={city} 
+                <SearchBanner onShowSpinner={onShowSpinner}
+                                onCitySelected={onCitySelected}
+                                city={city}
                                 onRequest={onRequestByCoords}
                                 onRequestByName={onRequestByName}
                                 onCardShow={onCardShow}
-                                weatherSwitch={weatherSwitch}/>
+                                weatherSwitch={weatherSwitch}
+                                recentlyUsedObj={recentlyUsedObj}
+                                recentlyUsedPrep={recentlyUsedPrep}
+                                onRecentlyUsed={onRecentlyUsed}/>
                 {weatherSwitch ? weeklyCard : currentCard}
                 {spinner}
+                <RecentlyUsed city={city} weatherSwitch={weatherSwitch}/>
             </main>
         </Router>
-    )
+    );
 }
 
-export default App
+export default App;

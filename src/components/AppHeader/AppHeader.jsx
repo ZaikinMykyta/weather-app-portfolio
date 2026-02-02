@@ -1,10 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function AppHeader(props) {
     const [inputVal, setInputVal] = useState('');
 
+    useEffect(()=> {
+        props.recentlyUsedPrep('type', props.weatherSwitch === 0 ? 'current' : 'weekly');
+    }, [props.weatherSwitch])
+
     const onRequestTypeChange = () => {
         props.onWeatherSwitch(props.weatherSwitch === 0 ? 1 : 0);
+        props.recentlyUsedPrep('name', '');
+        props.recentlyUsedPrep('days', '');
         props.onCardShow(false)
         props.setCity({})
     }
@@ -34,6 +40,7 @@ function AppHeader(props) {
                                 props.onRequest(inputVal);
                             }
                         }}
+                        placeholder='Search'
                         className='outline-none max-sm:w-[3rem] border-none text-black text-lg w-full min-w-0'/>
                 </div>
             </div>

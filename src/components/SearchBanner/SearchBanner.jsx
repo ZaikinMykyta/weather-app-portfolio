@@ -7,13 +7,19 @@ const SearchBanner = (props) => {
                                 onShowSpinner={props.onShowSpinner} 
                                 onCitySelected={props.onCitySelected} 
                                 city={props.city} 
-                                onRequest={props.onRequest}/> : null;
+                                onRequest={props.onRequest}
+                                recentlyUsedObj={props.recentlyUsedObj}
+                                recentlyUsedPrep={props.recentlyUsedPrep}
+                                onRecentlyUsed={props.onRecentlyUsed}/> : null;
 
     const SearchWeeklyBanner = props.weatherSwitch === 1 ? <SearchSelectWeeklyBanner onCardShow={props.onCardShow}
-                                                            onShowSpinner={props.onShowSpinner} 
-                                                            onCitySelected={props.onCitySelected} 
-                                                            city={props.city} 
-                                                            onRequest={props.onRequestByName}/> : null;
+                                onShowSpinner={props.onShowSpinner} 
+                                onCitySelected={props.onCitySelected} 
+                                city={props.city} 
+                                onRequest={props.onRequestByName}
+                                recentlyUsedObj={props.recentlyUsedObj}
+                                recentlyUsedPrep={props.recentlyUsedPrep}
+                                onRecentlyUsed={props.onRecentlyUsed}/> : null;
 
     return(
         <div className="
@@ -65,16 +71,6 @@ const SearchBanner = (props) => {
                  -mt-12
                  z-10
                  ">
-                {/* <SearchSelectCurrentBar onCardShow={props.onCardShow}
-                                onShowSpinner={props.onShowSpinner} 
-                                onCitySelected={props.onCitySelected} 
-                                city={props.city} 
-                                onRequest={props.onRequest}/>
-                <SearchSelectWeeklyBanner onCardShow={props.onCardShow}
-                                onShowSpinner={props.onShowSpinner} 
-                                onCitySelected={props.onCitySelected} 
-                                city={props.city} 
-                                onRequest={props.onRequest}/> */}
                 {SearchCurrentBanner}
                 {SearchWeeklyBanner}
             </div>

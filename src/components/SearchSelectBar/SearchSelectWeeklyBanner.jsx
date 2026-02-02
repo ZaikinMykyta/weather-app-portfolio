@@ -120,7 +120,7 @@ const SearchSelectWeeklyBanner = (props) => {
                     { Array.isArray(sugestion) && sugestion.length > 0 ? sugestion.map((item, i) => {
                         return <li key={i} 
                                     className='mb-5 py-2 sm:py-0' 
-                                    onClick={() => {props.onCitySelected(item); ChooseCity(classes); props.onCardShow(false)}}
+                                    onClick={() => {props.onCitySelected(item); props.recentlyUsedPrep('name', item.name); ChooseCity(classes); props.onCardShow(false)}}
                                     >
                                         {item.name}, {item.country}, {item.state}
                                 </li>
@@ -145,7 +145,7 @@ const SearchSelectWeeklyBanner = (props) => {
                         if(i === 0 || i === 1) {
                             return null;
                         } else {
-                            return <li key={i} value={i} onClick={(e) => {setDays(e.target.value); props.onCardShow(false);setDaysClasses('overflow-hidden hidden')}}>{i}</li>
+                            return <li key={i} value={i} onClick={(e) => {setDays(e.target.value); props.recentlyUsedPrep('days', e.target.value); props.onCardShow(false);setDaysClasses('overflow-hidden hidden')}}>{i}</li>
                         }
                     })}
                 </ul>
@@ -153,7 +153,7 @@ const SearchSelectWeeklyBanner = (props) => {
         </div>
         <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
              rounded-[35%] flex items-center justify-center"
-             onClick={() => {props.onRequest(props.city.name, days); props.onShowSpinner(true)}}>
+             onClick={() => {props.onRequest(props.city.name, days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj)}}>
             <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
         </div>
     </div>
