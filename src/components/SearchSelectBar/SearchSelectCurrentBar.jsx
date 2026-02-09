@@ -73,12 +73,10 @@ const SearchSelectCurrentBar = (props) => {
                             onChange={onCitySearch}/>
                     <ul className='flex flex-col'>
                         { Array.isArray(sugestion) && sugestion.length > 0 ? sugestion.map((item, i) => {
-                            console.log(item)
                             return <li key={i} 
                                         className='mb-5 py-2 sm:py-0' 
                                         onClick={() => {
                                             props.onCitySelected(item); 
-                                            props.recentlyUsedPrep('icon', item.icon)
                                             props.recentlyUsedPrep('name', item.name); 
                                             ChooseCity(classes); 
                                             props.onCardShow(false)}}
