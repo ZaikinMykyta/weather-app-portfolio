@@ -19,7 +19,9 @@ const SearchBanner = (props) => {
                                 onRequest={props.onRequestByName}
                                 recentlyUsedObj={props.recentlyUsedObj}
                                 recentlyUsedPrep={props.recentlyUsedPrep}
-                                onRecentlyUsed={props.onRecentlyUsed}/> : null;
+                                onRecentlyUsed={props.onRecentlyUsed}
+                                setDays={props.setDays}
+                                days={props.days}/> : null;
 
     return(
         <div className="

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import WeatherService from "./services/WheatherService";
+import Requests from "./services/Requests";
 
 import AppHeader from "./components/AppHeader/AppHeader";
 import SearchBanner from './components/SearchBanner/SearchBanner'
@@ -10,81 +10,41 @@ import WeatherWeeklyCards from './components/WheatherCards/WheatherWeeklyCards';
 import Spinner from "./components/Spinner/Spinner";
 import RecentlyUsed from "./components/RecentlyUsed/RecentlyUsed";
 
-function App() {
+function App () {
 
-    const [city, setCity] = useState({});
-    const [showCard, setShowCard] = useState(false);
-    const [showSpinner, setShowSpinner] = useState(false);
     const [recentlyUsed, setRecentlyUsed] = useState([]);
-    const [recentlyUsedObj, setRecentlyUsedObj] = useState({days: '', name: '', type: ''});
-    const [weatherSwitch, setWeatherSwitch] = useState(0);
+    const [recentlyUsedObj, setRecentlyUsedObj] = useState({days: '', name: '', type: '', icon: ''});
 
-    const {getCity, getCurrentWheather, getWeeklyWheather} = WeatherService();
+    useEffect(() => {
+        window.localStorage.setItem('recently used', JSON.stringify(recentlyUsed));
+    }, [recentlyUsed]);
 
-    const onCitySelected = (city) => {
-        setCity(city);
-    }
+    
 
-    const onWeatherSwitch = (switchValue) => {
-        setWeatherSwitch(switchValue);
-    }
+    const {onRequestByCoords, onCitySelected, weatherSwitch, 
+        showCard, city, days, setDays, onCardShow, onShowSpinner, setCity, showSpinner, 
+        onRequestByName, onWeatherSwitch} = Requests();
 
     const onRecentlyUsed = (newItem) => {
-        setRecentlyUsed([...recentlyUsed, newItem])
-        window.localStorage.setItem('recently used', JSON.stringify(recentlyUsed));
-    }
 
-    const recentlyUsedPrep = (newKey, newVal) => {
-        setRecentlyUsedObj({...recentlyUsedObj, [newKey]: newVal});
-    }
+        const existingIndex = recentlyUsed.findIndex(
+            item => item.name === newItem.name && item.type === newItem.type && item.days === newItem.days
+        );
 
-    const onCardShow = (bool) => {
-        setShowCard(bool);
-    }
-
-    const onShowSpinner = (bool) => {
-        setShowSpinner(bool);
-    }
-
-    const onRequestByName = (city, days=2) => {
-        if(city.length <= 1) {
-            return
+        if (existingIndex !== -1) {
+            const updatedList = [...recentlyUsed];
+            const [movedItem] = updatedList.splice(existingIndex, 1);
+            setRecentlyUsed([movedItem, ...updatedList]);
         } else {
-            if(weatherSwitch === 0) {
-                getCity(city, 1)
-                    .then((data) => {
-                        console.log(data);
-                        getCurrentWheather(data[0].lat, data[0].lon)
-                            .then((data) => {
-                                onCitySelected(data);
-                                onShowSpinner(false);
-                                onCardShow(true);
-                            })
-                    })
-            } else {
-                getCity(city, 1)
-                    .then((data) => {
-                        getWeeklyWheather(data[0].lat, data[0].lon, days)
-                            .then((data) => {
-                                onCitySelected(data);
-                                onShowSpinner(false);
-                                onCardShow(true);
-                            })
-                    })
-            }
+            setRecentlyUsed([newItem, ...recentlyUsed])
         }
     }
 
-    const onRequestByCoords = (lat, lon) => {
-        getCurrentWheather(lat, lon)
-                    .then(data => {
-                        onCitySelected(data);
-                        onShowSpinner(false);
-                        onCardShow(true);
-                    })
+    const recentlyUsedPrep = (newKey, newVal) => {
+        console.log(newKey, newVal);
+        setRecentlyUsedObj({...recentlyUsedObj, [newKey]: newVal});
     }
 
-    
     const currentCard = showCard && !showSpinner ? <WheatherCurrentCard city={city}/> : null
     const weeklyCard = showCard && !showSpinner ? <WeatherWeeklyCards city={city}/> : null
     const spinner = showSpinner ? <Spinner/> : null
@@ -110,10 +70,18 @@ function App() {
                                 weatherSwitch={weatherSwitch}
                                 recentlyUsedObj={recentlyUsedObj}
                                 recentlyUsedPrep={recentlyUsedPrep}
-                                onRecentlyUsed={onRecentlyUsed}/>
+                                onRecentlyUsed={onRecentlyUsed}
+                                days={days}
+                                setDays={setDays}/>
                 {weatherSwitch ? weeklyCard : currentCard}
                 {spinner}
-                <RecentlyUsed city={city} weatherSwitch={weatherSwitch}/>
+                <RecentlyUsed onCitySelected={onCitySelected}
+                              recentlyUsedPrep={recentlyUsedPrep}
+                              city={city}
+                              onWeatherSwitch={onWeatherSwitch}
+                              weatherSwitch={weatherSwitch}
+                              days={days}
+                              setDays={setDays}/>
             </main>
         </Router>
     );

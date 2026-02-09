@@ -9,7 +9,6 @@ const SearchSelectWeeklyBanner = (props) => {
     const [showDays, setShowDays] = useState(false);
     const [classes, setClasses] = useState('overflow-hidden hidden');
     const [daysClasses, setDaysClasses] = useState('overflow-hidden hidden')
-    const [days, setDays] = useState(0);    
     const [searchCity, setSearchCity] = useState('');
     const [sugestion, setSugestion] = useState([]);
     const debouceTimerRef = useRef(null);
@@ -104,7 +103,7 @@ const SearchSelectWeeklyBanner = (props) => {
                         Days
                     </div>
                     <div className="text-white">
-                        <p>{days === 0 ? 'Choose days' : days}</p>
+                        <p>{props.days === 0 ? 'Choose days' : props.days}</p>
                     </div>
                 </div>
             </div>
@@ -130,11 +129,11 @@ const SearchSelectWeeklyBanner = (props) => {
             <div className={daysClasses}>
                 <input type="text" 
                             placeholder="Search" 
-                            value={days}
+                            value={props.days}
                             className="w-full pl-5 
                             shadow-[0_2px_8px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.05)] 
                             mt-4 rounded-2xl" 
-                            onChange={(e) => setDays(e.target.value)}
+                            onChange={(e) => props.setDays(e.target.value)}
                             onKeyDown={(e) => {
                                 if(e.key === 'Enter') {
                                     setDaysClasses('overflow-hidden hidden');
@@ -145,7 +144,16 @@ const SearchSelectWeeklyBanner = (props) => {
                         if(i === 0 || i === 1) {
                             return null;
                         } else {
-                            return <li key={i} value={i} onClick={(e) => {setDays(e.target.value); props.recentlyUsedPrep('days', e.target.value); props.onCardShow(false);setDaysClasses('overflow-hidden hidden')}}>{i}</li>
+                            return <li key={i} 
+                                        value={i} 
+                                        onClick={(e) => {
+                                            props.setDays(e.target.value); 
+                                            props.recentlyUsedPrep('days', e.target.value); 
+                                            props.onCardShow(false);setDaysClasses('overflow-hidden hidden')}
+                                        }
+                                    >
+                                            {i}
+                                    </li>
                         }
                     })}
                 </ul>
@@ -153,7 +161,7 @@ const SearchSelectWeeklyBanner = (props) => {
         </div>
         <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
              rounded-[35%] flex items-center justify-center"
-             onClick={() => {props.onRequest(props.city.name, days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj)}}>
+             onClick={() => {props.onRequest(props.city.name, props.days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj);props.recentlyUsedPrep('icon', `https://openweathermap.org/img/wn/${props.city.weather[0].icon}@2x.png`); props.setDays(0)}}>
             <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
         </div>
     </div>

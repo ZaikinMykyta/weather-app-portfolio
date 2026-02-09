@@ -41,7 +41,7 @@ function AppHeader(props) {
                             }
                         }}
                         placeholder='Search'
-                        className='outline-none max-sm:w-[3rem] border-none text-black text-lg w-full min-w-0'/>
+                        className='outline-none max-sm:w-[5rem] border-none text-black text-lg w-full min-w-0'/>
                 </div>
             </div>
             <div className="flex max-sm:flex-col max-sm:ml-0 max-sm:w-[4rem] max-sm:items-center justify-end mr-3 md:mr-[5vw] shrink-0">

@@ -4,24 +4,22 @@ const WheatherCurrentCard = ({city}) => {
         return null;
     }
 
-    // Функция для форматирования даты
     const formatDate = (timestamp) => {
         const date = new Date(timestamp * 1000);
         const options = {  month: 'short', year:'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return date.toLocaleDateString('en-US', options);
     };
 
-    // Выбор градиента в зависимости от температуры
     const getGradient = (temp) => {
         const tempNum = parseFloat(temp);
         if (tempNum < 10) {
-            return 'from-slate-700 via-blue-800 to-slate-800'; // Холодно - темно-синий
+            return 'from-slate-700 via-blue-800 to-slate-800'; 
         } else if (tempNum < 20) {
-            return 'from-slate-700 via-cyan-800 to-slate-800'; // Прохладно - темно-бирюзовый
+            return 'from-slate-700 via-cyan-800 to-slate-800';
         } else if (tempNum < 27) {
-            return 'from-slate-700 via-purple-800 to-slate-800'; // Тепло - темно-фиолетовый
+            return 'from-slate-700 via-purple-800 to-slate-800';
         } else {
-            return 'from-slate-700 via-orange-800 to-slate-800'; // Жарко - темно-оранжевый
+            return 'from-slate-700 via-orange-800 to-slate-800';
         }
     };
         
