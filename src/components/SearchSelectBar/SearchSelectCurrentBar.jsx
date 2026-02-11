@@ -90,9 +90,17 @@ const SearchSelectCurrentBar = (props) => {
             <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
                 rounded-[35%] flex items-center justify-center"
                 onClick={() => {
+
+                    const iconUrl = props.city && props.city.icon ? `https://openweathermap.org/img/wn/${props.city.icon}@2x.png` : ''
+
+                    const newItem = {
+                        ...props.recentlyUsedObj,
+                        icon: iconUrl
+                    }
+
                     props.onRequest(props.city.lat, props.city.lon);
                     props.onShowSpinner(true);
-                    props.onRecentlyUsed(props.recentlyUsedObj)
+                    props.onRecentlyUsed(newItem)
                     }}>
                 <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
             </div>

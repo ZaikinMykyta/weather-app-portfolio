@@ -27,7 +27,7 @@ const RecentlyUsed = (props) => {
             
             const items = data.map((item,i) => {
                  return(
-                    <li key={i} className="flex-shrink-0">
+                    <li key={i} className="flex-shrink-0 mr-[1vw]">
                         <button className="flex flex-col justify-between items-center cursor-pointer bg-gradient-to-b from-slate-700 to-slate-900 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-8 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 w-32 sm:w-40 md:w-48 h-40 sm:h-52 md:h-60 text-center border border-white/10 hover:border-white/30"
                                 onClick={() => {
                                     getCity(item.name, 1).then(res => {

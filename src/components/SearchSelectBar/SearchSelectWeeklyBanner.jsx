@@ -49,7 +49,8 @@ const SearchSelectWeeklyBanner = (props) => {
                 onDays(daysClasses);
                 ChooseCity(classes);
             }
-        } else if(target.childNodes[0].textContent.toLowerCase().includes('days')) {
+        } else if(target.childNodes[0].textContent.toLowerCase().includes('days') || 
+                target.parentElement.parentElement.childNodes[0].innerText.toLowerCase().includes('days')) {
             if(!showCity) {
                 onDays(daysClasses);
             } else {
@@ -84,12 +85,13 @@ const SearchSelectWeeklyBanner = (props) => {
         },DEBOUNCE_MS)
     }
 
+
     return (
-    <div className="flex w-full px-4 sm:px-6 max-sm:px-8md:px-10 
+    <div className="flex w-full px-4 sm:px-6 max-sm:px-4 md:px-10 
             pr-4 sm:pr-5 items-center justify-between">
-        <div className="flex flex-col px-3 items-start justify-startgap-2"
+        <div className="flex flex-col px-3 items-start justify-start gap-2"
             >
-            <div className="flex items-center gap-5 justify-between">
+            <div className="flex items-center gap-5 max-sm:gap-1 justify-between">
                 <div onClick={(e) => { onRequestMenus(e.target)}}>
                     <div className="text-white">
                         Location
@@ -159,9 +161,9 @@ const SearchSelectWeeklyBanner = (props) => {
                 </ul>
             </div>
         </div>
-        <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
+        <div className="h-[4vh] xl:w-[4vw] lg:w-[6vw] lg:h-[5vh] md:h-[4.5vh] md:w-[7vw] sm:w-[7vw] max-sm:w-[12vw] cursor-pointer bg-green-500 
              rounded-[35%] flex items-center justify-center"
-             onClick={() => {props.onRequest(props.city.name, props.days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj);props.recentlyUsedPrep('icon', `https://openweathermap.org/img/wn/${props.city.weather[0].icon}@2x.png`); props.setDays(0)}}>
+             onClick={() => {props.onRequest(props.city.name, props.days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj); props.setDays(0)}}>
             <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
         </div>
     </div>

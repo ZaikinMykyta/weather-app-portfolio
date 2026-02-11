@@ -60,10 +60,11 @@ const SearchBanner = (props) => {
                  relative
                  bg-[#2F2F2F]
                  w-[90vw]
-                 sm:w-[60vw]
-                 md:w-[40vw]
+                 sm:w-[55vw]
+                 md:w-[50vw]
+                 max-sm:w-[70vw]
+                 max-sm:text-sm
                  h-[5vh]
-                 max-sm: w-[250px]
                  min-h-[3.5rem]
                  flex 
                  justify-center 

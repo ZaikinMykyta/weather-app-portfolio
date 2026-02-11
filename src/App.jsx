@@ -9,6 +9,7 @@ import WheatherCurrentCard from "./components/WheatherCards/WheatherCurrentCard"
 import WeatherWeeklyCards from './components/WheatherCards/WheatherWeeklyCards';
 import Spinner from "./components/Spinner/Spinner";
 import RecentlyUsed from "./components/RecentlyUsed/RecentlyUsed";
+import AppFooter from "./components/AppFooter/AppFooter";
 
 function App () {
 
@@ -18,8 +19,6 @@ function App () {
     useEffect(() => {
         window.localStorage.setItem('recently used', JSON.stringify(recentlyUsed));
     }, [recentlyUsed]);
-
-    
 
     const {onRequestByCoords, onCitySelected, weatherSwitch, 
         showCard, city, days, setDays, onCardShow, onShowSpinner, setCity, showSpinner, 
@@ -41,7 +40,6 @@ function App () {
     }
 
     const recentlyUsedPrep = (newKey, newVal) => {
-        console.log(newKey, newVal);
         setRecentlyUsedObj({...recentlyUsedObj, [newKey]: newVal});
     }
 
@@ -83,6 +81,9 @@ function App () {
                               days={days}
                               setDays={setDays}/>
             </main>
+            <footer>
+                <AppFooter/>
+            </footer>
         </Router>
     );
 }
