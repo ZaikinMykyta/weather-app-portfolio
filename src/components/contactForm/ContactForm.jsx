@@ -17,16 +17,38 @@ const ContactForm = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
+        try{
+            const response = await fetch('https://formspree.io/f/meellarv', {
+                method:'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+
+            if(response.ok) {
+                setTimeout(() => {
+                    setFormData({
+                        name: '',
+                        email: '',
+                        subject: '',
+                        message: ''
+                    })
+                }, 3000)
+            } else {
+                console.log('form submission failed')
+            }
+        }catch(e){
+            throw new Error('There has been an error', {cause: e})
+        }
     };
 
     return (
-        <Form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg">
-            {/* Name Field */}
-            <Form.Group className="mb-4">
-                <Form.Label className="text-sm font-medium text-gray-700">
+        <Form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto p-6 bg-[#2F2F2F] rounded-lg shadow-lg">
+            <Form.Group className="mb-4 flex flex-col text-white">
+                <Form.Label className="text-sm mb-[1vh] font-medium text-white">
                     Имя
                 </Form.Label>
                 <Form.Control
@@ -35,14 +57,13 @@ const ContactForm = () => {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Ваше имя"
-                    className="border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="border-gray-300 text-neutral-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                 />
             </Form.Group>
 
-            {/* Email Field */}
-            <Form.Group className="mb-4">
-                <Form.Label className="text-sm font-medium text-gray-700">
+            <Form.Group className="mb-4 flex flex-col text-white">
+                <Form.Label className="text-sm mb-[1vh] font-medium text-white">
                     Почта
                 </Form.Label>
                 <Form.Control
@@ -51,14 +72,13 @@ const ContactForm = () => {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="name@example.com"
-                    className="border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="border-gray-300 text-neutral-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                 />
             </Form.Group>
 
-            {/* Subject Field */}
-            <Form.Group className="mb-4">
-                <Form.Label className="text-sm font-medium text-gray-700">
+            <Form.Group className="mb-4 flex flex-col text-white">
+                <Form.Label className="text-sm mb-[1vh] font-medium text-white">
                     Тема
                 </Form.Label>
                 <Form.Control
@@ -67,14 +87,13 @@ const ContactForm = () => {
                     value={formData.subject}
                     onChange={handleChange}
                     placeholder="Тема сообщения"
-                    className="border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="border-gray-300 text-neutral-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                 />
             </Form.Group>
 
-            {/* Message Field */}
-            <Form.Group className="mb-5">
-                <Form.Label className="text-sm font-medium text-gray-700">
+            <Form.Group className="mb-5 flex flex-col text-white">
+                <Form.Label className="text-sm mb-[1vh] font-medium text-white">
                     Сообщение
                 </Form.Label>
                 <Form.Control
@@ -84,12 +103,11 @@ const ContactForm = () => {
                     onChange={handleChange}
                     placeholder="Ваше сообщение"
                     rows={4}
-                    className="border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="border-gray-300 text-neutral-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                     required
                 />
             </Form.Group>
 
-            {/* Submit Button */}
             <button
                 type="submit"
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition duration-200"
