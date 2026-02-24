@@ -49,17 +49,20 @@ const MainPage = () => {
 
     return (
         <>
-            <AppHeader city={city}
-                        showCard={showCard}
-                        onCardShow={onCardShow}
-                        onCitySelected={onCitySelected}
-                        weatherSwitch={weatherSwitch}
-                        onWeatherSwitch={onWeatherSwitch}
-                        onRequest={onRequestByName}
-                        onRequestByCoords={onRequestByCoords}
-                        setCity={setCity}
-                        recentlyUsedObj={recentlyUsedObj}
-                        recentlyUsedPrep={recentlyUsedPrep}/>
+            <ErrorBoundary>
+                <AppHeader city={city}
+                            showCard={showCard}
+                            setDays={setDays}
+                            onCardShow={onCardShow}
+                            onCitySelected={onCitySelected}
+                            weatherSwitch={weatherSwitch}
+                            onWeatherSwitch={onWeatherSwitch}
+                            onRequest={onRequestByName}
+                            onRequestByCoords={onRequestByCoords}
+                            setCity={setCity}
+                            recentlyUsedObj={recentlyUsedObj}
+                            recentlyUsedPrep={recentlyUsedPrep}/>
+            </ErrorBoundary>
             <main className="flex flex-col items-center w-full min-h-screen px-2 sm:px-4 box-border">
                 <SearchBanner onShowSpinner={onShowSpinner}
                                 onCitySelected={onCitySelected}

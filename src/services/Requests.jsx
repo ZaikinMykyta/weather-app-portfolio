@@ -27,6 +27,7 @@ const Requests = () => {
     const onCardShow = (bool) => {
         setShowCard(bool);
     }
+
     const onRequestByName = (city, days=2) => {
         if(city.length <= 1) {
             return
@@ -56,13 +57,21 @@ const Requests = () => {
         }
     }
     
-    const onRequestByCoords = (lat, lon) => {
-        getCurrentWheather(lat, lon)
-                    .then(data => {
+    const onRequestByCoords = (lat, lon, day=0) => {
+        if(day < 2) {
+            getCurrentWheather(lat, lon).then(data => {
                         onCitySelected(data);
                         onShowSpinner(false);
                         onCardShow(true);
                     })
+        } else if(day > 1){
+            getWeeklyWheather(lat, lon, day)
+                .then((data) => {
+                    onCitySelected(data);
+                    onShowSpinner(false);
+                    onCardShow(true);
+                })
+        }
     }
 
     return {onRequestByName, weatherSwitch, days, setDays, setWeatherSwitch, onWeatherSwitch, onCitySelected, showCard, city, onCardShow, onShowSpinner, setCity, showSpinner, onRequestByCoords};

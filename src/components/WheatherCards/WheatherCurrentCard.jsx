@@ -25,7 +25,9 @@ const WheatherCurrentCard = ({city}) => {
             return 'from-slate-700 via-orange-800 to-slate-800';
         }
     };
-        
+
+    const date = new Date();
+    // date.getTimezoneOffset(city.timezone) / 60
     return (
         <div className="flex justify-center items-center mt-6 sm:mt-8 px-3 sm:px-4 z-0 w-full max-w-5xl mx-auto">
             <div className={`
@@ -46,7 +48,7 @@ const WheatherCurrentCard = ({city}) => {
                 
                 <div className="flex justify-between items-start mb-4 sm:mb-6 relative z-10">
                     <div className="flex flex-col min-w-0">
-                        <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.name}, {city.country}, {city.timezone}</p>
+                        <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.name}, {city.country}, {`UTC${city.timezone / 3600}`}</p>
                         <p className="text-4xl sm:text-5xl font-bold text-white">{city.temp}</p>
                     </div>
                     

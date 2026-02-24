@@ -123,6 +123,7 @@ function AppHeader(props) {
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
                                 props.onRequest(cityHeaderVal);
+                                setCityHeaderVal('')
                             }
                         }}
                         placeholder='Search'
@@ -130,6 +131,7 @@ function AppHeader(props) {
                         className='outline-none max-sm:w-[5rem] border-none text-black text-lg w-full min-w-0'/>
                     <ul className={classes}>
                         { Array.isArray(headerSugestions) && headerSugestions.length > 0 ? headerSugestions.map((item, i) => {
+                            const int = Math.floor(Math.random() * (11 - 2) + 2);
                             return <li key={i} 
                                         className='px-5 py-3
                                                    hover:bg-gradient-to-r hover:from-cyan-500 hover:from-opacity-10 hover:to-cyan-500 hover:to-opacity-5
@@ -143,15 +145,15 @@ function AppHeader(props) {
                                                    text-gray-100
                                                    border-l-2 border-transparent
                                                    hover:border-l-cyan-500' 
-                                        onClick={(e) => {
+                                        onClick={() => {
                                             props.onCitySelected(item); 
                                             props.recentlyUsedPrep('name', item.name); 
                                             closeMenu();
                                             setCityHeaderVal('');
-                                            props.onRequestByCoords(item.lat, item.lon)
+                                            if(props.weatherSwitch) {props.onRequestByCoords(item.lat, item.lon, int); props.setDays(int)}else{props.onRequestByCoords(item.lat, item.lon)}
                                             props.onCardShow(false)}}
                                         >
-                                            {item.name}, {item.country}, {item.state}
+                                            {item.name}, {item.country}, {item.state} {props.weatherSwitch ? int : null}
                                     </li>
                         }) : null}
                     </ul>
