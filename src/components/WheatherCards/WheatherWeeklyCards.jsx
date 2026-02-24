@@ -1,3 +1,8 @@
+import SunCard from "../WeatherInfoCards/SunCard/SunCard";
+import TempsCard from "../WeatherInfoCards/TempCard/TempCard";
+import WindCard from "../WeatherInfoCards/WindCard/WindCard";
+import FeelsLikeCard from "../WeatherInfoCards/FeelsLikeCard/FeelsLikeCard";
+
 const WeatherWeeklyCards = ({city}) => {
     const weatherList = city.list || [];
 
@@ -68,66 +73,33 @@ const WeatherWeeklyCards = ({city}) => {
                         </div>
         
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 relative z-10">
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                                <p className="text-xs text-white/60 mb-1">Feels like</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Morning {item.feels_like.morn} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Day {item.feels_like.day} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Eve {item.feels_like.eve} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Night {item.feels_like.night} ℃</p>
+                            <div className="md:col-span-1 max-sm:col-span-2">
+                                <FeelsLikeCard
+                                    feelsLike={item.feels_like}
+                                    minTemp={item.temp.min}
+                                    maxTemp={item.temp.max}
+                                />
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                                <p className="text-xs text-white/60 mb-1">Humidity</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">{item.humidity} %</p>
+                            
+                            <div className="bg-[#2F2F2F]/80 max-sm:col-start-2 max-sm:row-start-4 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md md:col-span-1">
+                                <p className="text-xs text-white/60 mb-2 sm:mb-3 font-semibold uppercase tracking-wide">Humidity</p>
+                                <p className="text-2xl sm:text-3xl font-bold text-white">{item.humidity}%</p>
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                                <p className="text-xs text-white/60 mb-1">Sunrise</p>
-                                <p className="text-base sm:text-lg font-semibold text-white mb-2">{item.sunrise ? formatDate(item.sunrise) : '—'}</p>
-                                <p className="text-xs text-white/60 mb-1">Sunset</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">{item.sunset ? formatDate(item.sunset) : '—'}</p>
+                            
+                            <div className="md:col-span-1 max-sm:col-span-2">
+                                <TempsCard
+                                    temps={item.temp}
+                                    minTemp={item.temp.min}
+                                    maxTemp={item.temp.max}
+                                />
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl col-span-2 p-3 sm:p-4 border border-white/5 shadow-md">
-                                <p className="text-xs text-white/60 mb-1">Wind</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">{item.speed} m/s</p>
-                                {item.deg != null && (
-                                    <div className="grid grid-rows-3 grid-cols-3 items-center justify-items-center">
-                                        <div style={{gridColumn: 2}} className="text-2xl">
-                                            N
-                                        </div>
-                                        <div style={{gridColumn: 3, gridRow: 2}} className="text-2xl">
-                                            E
-                                        </div>
-                                        <div style={{gridColumn: 2, gridRow: 3}} className="text-2xl">
-                                            S
-                                        </div>
-                                        <div style={{gridColumn: 1, gridRow: 2}} className="text-2xl">
-                                            W
-                                        </div>
-                                        <div style={{gridColumn: 2, gridRow: 2}} className="justify-items-center">
-                                            <div className="flex justify-center"
-                                                 style={{ transform: `rotate(${item.deg}deg)` }}>
-                                                <div className="relative left-[0.9vw] top-[-0.5vh] bg-black w-[1vw] rounded-2xl h-[3vh] rotate-45"></div>
-                                                <div className="flex flex-col justify-center items-center">
-                                                    <div className="bg-black rounded-t-2xl w-[1vw] h-[2.7vh]"></div>
-                                                    <span className="relative top-[0.1vh] text-base sm:text-lg font-semibold text-white"
-                                                            style={{ transform: `rotate(${-item.deg}deg)` }}>
-                                                    {item.deg}°</span>
-                                                    <div className="bg-black rounded-b-2xl w-[1vw] h-[3vh]"></div>
-                                                </div>
-                                                <div className="relative left-[-0.9vw] top-[-0.5vh] bg-black w-[1vw] h-[3vh] rounded-2xl rotate-[-45deg]"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
+                            <div className="grid col-span-2 gap-3 h-[22vh] sm:gap-4">
+                                <SunCard sunrise={item.sunrise} sunset={item.sunset}/>
                             </div>
-                            <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md"
-                            style={{gridColumn: 3, gridRow: 2}}
-                                >
-                                <p className="text-xs text-white/60 mb-1">Temps:</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Morning {item.temp.morn} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Day {item.temp.day} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Eve {item.temp.eve} ℃</p>
-                                <p className="text-base sm:text-lg font-semibold text-white">Night {item.temp.night} ℃</p>
+                            <div className="grid gap-3 sm:gap-4">
+                                <WindCard wind_speed={item.speed} wind_deg={item.deg} />
                             </div>
+                            
                         </div>
         
                         <div className="flex justify-between items-center mt-4 sm:mt-6 text-sm relative z-10">

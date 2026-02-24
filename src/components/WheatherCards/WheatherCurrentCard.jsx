@@ -1,3 +1,6 @@
+import SunCard from "../WeatherInfoCards/SunCard/SunCard";
+import WindCard from "../WeatherInfoCards/WindCard/WindCard";
+
 const WheatherCurrentCard = ({city}) => {
     
     if (!city || !city.name) {
@@ -39,18 +42,14 @@ const WheatherCurrentCard = ({city}) => {
                 relative
                 overflow-hidden
             `}>
-                {/* Тонкий эффект глубины */}
                 <div className="absolute inset-0 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
                 
-                {/* Верхняя секция */}
                 <div className="flex justify-between items-start mb-4 sm:mb-6 relative z-10">
-                    {/* Левая часть: Город и температура */}
                     <div className="flex flex-col min-w-0">
                         <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.name}, {city.country}, {city.timezone}</p>
                         <p className="text-4xl sm:text-5xl font-bold text-white">{city.temp}</p>
                     </div>
                     
-                    {/* Правая часть: Иконка и "Today" */}
                     <div className="flex flex-col items-end shrink-0">
                         <img 
                             src={city.icon} 
@@ -61,7 +60,6 @@ const WheatherCurrentCard = ({city}) => {
                     </div>
                 </div>
 
-                {/* Средняя секция: Описание и дата */}
                 <div className="mb-4 sm:mb-6 relative z-10">
                     <p className="text-base sm:text-lg font-medium mb-1 capitalize text-white/90">{city.description}</p>
                     {city.dayTime && (
@@ -69,8 +67,7 @@ const WheatherCurrentCard = ({city}) => {
                     )}
                 </div>
 
-                {/* Нижняя секция: Дополнительная информация */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 relative z-10">
+                <div className="grid grid-cols-1 max-sm:grid-cols-3 sm:grid-cols-3 gap-3 max-sm:gap-2 sm:gap-4 relative z-10">
                     <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
                         <p className="text-xs text-white/60 mb-1">Feels like</p>
                         <p className="text-base sm:text-lg font-semibold text-white">{city.feels_like}</p>
@@ -83,7 +80,7 @@ const WheatherCurrentCard = ({city}) => {
                         <p className="text-xs text-white/60 mb-1">Visibility</p>
                         <p className="text-base sm:text-lg font-semibold text-white">{city.visibility}</p>
                     </div>
-                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                    {/* <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
                         <p className="text-xs text-white/60 mb-1">Sunset</p>
                         <p className="text-base sm:text-lg font-semibold text-white mb-2">{city.sunset != null ? formatDate(city.sunset) : '—'}</p>
                         <p className="text-xs text-white/60 mb-1">Sunrise</p>
@@ -131,6 +128,12 @@ const WheatherCurrentCard = ({city}) => {
                                 </div>
                             </div>
                         )}
+                    </div> */}
+                    <div className="grid col-span-2 gap-3 h-[22vh] sm:gap-4">
+                        <SunCard sunrise={city.sunrise} sunset={city.sunset} />
+                    </div>
+                    <div className="grid gap-3 sm:gap-4">
+                        <WindCard wind_speed={city.wind_speed} wind_deg={city.wind_deg} />
                     </div>
                 </div>
 

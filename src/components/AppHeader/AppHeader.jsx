@@ -1,11 +1,46 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+import WheatherService from '../../services/WheatherService';
 
 function AppHeader(props) {
-    const [inputVal, setInputVal] = useState('');
+    const [cityHeaderVal, setCityHeaderVal] = useState('');
+    const [headerSugestions, setHeaderSugestions] = useState([]);
+    const [showCity, setShowCity] = useState(false);
+    const [classes, setClasses] = useState('overflow-hidden hidden');
+    const debounceTimerRef = useRef(null);
+    const searchContainerRef = useRef(null);
+
+    const {getCity} = WheatherService();
 
     useEffect(()=> {
         props.recentlyUsedPrep('type', props.weatherSwitch === 0 ? 'current' : 'weekly');
     }, [props.weatherSwitch])
+
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+                if (showCity) {
+                    setShowCity(false);
+                    setClasses('overflow-hidden hidden');
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [showCity]);
+
+    useEffect(() => {
+        const handleEscape = (e) => {
+            if (e.key === 'Escape' && showCity) {
+                setShowCity(false);
+                setClasses('overflow-hidden hidden');
+            }
+        };
+
+        document.addEventListener('keydown', handleEscape);
+        return () => document.removeEventListener('keydown', handleEscape);
+    }, [showCity]);
 
     const onRequestTypeChange = () => {
         props.onWeatherSwitch(props.weatherSwitch === 0 ? 1 : 0);
@@ -13,6 +48,55 @@ function AppHeader(props) {
         props.recentlyUsedPrep('days', '');
         props.onCardShow(false)
         props.setCity({})
+    }
+
+    const ChooseCity = () => {
+
+        if(!showCity) {
+            setClasses(`overflow-y-auto visible absolute top-14 mt-2
+                2xl:left-[10vw] xl:left-[15vw] 
+                md:left-[16vw] sm:left-[21vw] max-sm:left-[23vw]
+                right-0 w-full
+                text-white flex flex-col
+                bg-gradient-to-b from-[#3A3A3A] to-[#2F2F2F] 
+                rounded-xl z-50
+                shadow-2xl shadow-cyan-500/30 backdrop-blur-md
+                max-h-[350px] max-w-[30vw]`);
+        } else {
+            setClasses('overflow-hidden hidden');
+        }
+        setShowCity(!showCity);
+    }
+
+    const onCitySelected = (e) => {
+        const value = e.target.value;
+        setCityHeaderVal(value);
+
+        if(debounceTimerRef.current){
+            clearTimeout(debounceTimerRef.current);
+        }
+
+        if(value.trim().length < 2) {
+            setHeaderSugestions([]);
+            return;
+        }
+
+        debounceTimerRef.current = setTimeout(() => {
+            ChooseCity();
+
+            getCity(value, 5)
+                .then(res => {
+                    setHeaderSugestions(Array.isArray(res) ? res : [])
+                })
+                .catch(err => {
+                    throw new Error('There has been some error, try our product later', {cause: err})
+                })
+        }, import.meta.env.VITE_DEBOUNCE_MS)
+    }
+
+    const closeMenu = () => {
+        setShowCity(false);
+        setClasses('overflow-hidden hidden');
     }
 
     return (
@@ -29,22 +113,55 @@ function AppHeader(props) {
                     pl-2
                     ml-3 md:ml-6
                     border-2
-                    min-w-0 w-full max-w-[140px] sm:max-w-[200px] md:max-w-none'>
-                    <img onClick={() => props.onRequest(inputVal)} 
+                    min-w-0 w-full max-w-[140px] searchBar sm:max-w-[200px] md:max-w-none'
+                    ref={searchContainerRef}>
+                    <img onClick={() => props.onRequest(cityHeaderVal)} 
                         className="w-[2vh] h-[2vh] min-w-[16px] min-h-[16px] mr-2 cursor-pointer shrink-0"
                         src="https://avatanplus.com/files/resources/original/5753202b8c9ed1551cb5aa38.png" alt="" />
                     <input type="text" 
-                        onChange={(e) => setInputVal(e.target.value)} 
+                        onChange={(e) => onCitySelected(e)} 
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
-                                props.onRequest(inputVal);
+                                props.onRequest(cityHeaderVal);
                             }
                         }}
                         placeholder='Search'
+                        value={cityHeaderVal}
                         className='outline-none max-sm:w-[5rem] border-none text-black text-lg w-full min-w-0'/>
+                    <ul className={classes}>
+                        { Array.isArray(headerSugestions) && headerSugestions.length > 0 ? headerSugestions.map((item, i) => {
+                            return <li key={i} 
+                                        className='px-5 py-3
+                                                   hover:bg-gradient-to-r hover:from-cyan-500 hover:from-opacity-10 hover:to-cyan-500 hover:to-opacity-5
+                                                   hover:pl-7
+                                                   transition-all duration-200 ease-out
+                                                   cursor-pointer
+                                                   first:rounded-t-lg first:pt-4
+                                                   last:rounded-b-lg last:pb-4
+                                                   text-sm sm:text-base
+                                                   font-medium
+                                                   text-gray-100
+                                                   border-l-2 border-transparent
+                                                   hover:border-l-cyan-500' 
+                                        onClick={(e) => {
+                                            props.onCitySelected(item); 
+                                            props.recentlyUsedPrep('name', item.name); 
+                                            closeMenu();
+                                            setCityHeaderVal('');
+                                            props.onRequestByCoords(item.lat, item.lon)
+                                            props.onCardShow(false)}}
+                                        >
+                                            {item.name}, {item.country}, {item.state}
+                                    </li>
+                        }) : null}
+                    </ul>
                 </div>
             </div>
-            <div className="flex max-sm:flex-col max-sm:ml-0 max-sm:w-[4rem] max-sm:items-center justify-end mr-3 md:mr-[5vw] shrink-0">
+            <div className="flex max-sm:flex-col 
+            max-sm:ml-0 max-sm:w-[4rem] 
+            max-sm:items-center justify-end 
+            mr-3 md:mr-[5vw] shrink-0
+            max-sm:mr-[10vw]">
                 <div className='flex items-center gap-2'>
                     <p className='text-white text-sm md:text-base'>Current</p>
                     <div

@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-function AppHeaderContact(props) {
+function AppHeaderContact() {
 
     return (
         <div className="App flex flex-wrap justify-between items-center gap-y-2 bg-[#2F2F2F] min-h-[5vh] py-2 md:py-0 md:h-[5vh] px-3 md:px-0">

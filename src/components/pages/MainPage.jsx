@@ -10,6 +10,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import RecentlyUsed from "../../components/RecentlyUsed/RecentlyUsed";
 import AppFooter from "../../components/AppFooter/AppFooter";
 import ContactMeBanner from "../ContactMeBanner/ContactMeBanner";
+import ErrorBoundary from "../ErrorBoundary/ErrorBoundary.jsx";
 
 const MainPage = () => {
     const [recentlyUsed, setRecentlyUsed] = useState([]);
@@ -51,9 +52,11 @@ const MainPage = () => {
             <AppHeader city={city}
                         showCard={showCard}
                         onCardShow={onCardShow}
+                        onCitySelected={onCitySelected}
                         weatherSwitch={weatherSwitch}
                         onWeatherSwitch={onWeatherSwitch}
                         onRequest={onRequestByName}
+                        onRequestByCoords={onRequestByCoords}
                         setCity={setCity}
                         recentlyUsedObj={recentlyUsedObj}
                         recentlyUsedPrep={recentlyUsedPrep}/>
@@ -79,10 +82,14 @@ const MainPage = () => {
                               weatherSwitch={weatherSwitch}
                               days={days}
                               setDays={setDays}/>
-                <ContactMeBanner/>
+                <div className="w-full flex flex-col items-center mt-auto">
+                    <ContactMeBanner/>
+                </div>
             </main>
             <footer>
-                <AppFooter/>
+                <ErrorBoundary>
+                    <AppFooter/>
+                </ErrorBoundary>
             </footer>
         </>
     );

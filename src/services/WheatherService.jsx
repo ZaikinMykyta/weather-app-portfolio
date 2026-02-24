@@ -1,24 +1,18 @@
 const WeatherService = () => {
-    const _apiCurrentBase = 'https://api.openweathermap.org/data/2.5/weather?';
-    const _apiWeekBase = 'https://api.openweathermap.org/data/2.5/forecast/daily?';
-    const _apiDecoderBase = 'https://api.openweathermap.org/geo/1.0/direct?';
-
-    const _apiKey = '5d44c2001b79d82f32494fb3b6cd271f';
 
     const getCity = async (city_name, limit = 5) => {
-        const res = await fetch(`${_apiDecoderBase}q=${city_name}&limit=${limit}&appid=${_apiKey}`);
+        const res = await fetch(`${import.meta.env.VITE_DECODER_BASE_URL}q=${city_name}&limit=${limit}&appid=${import.meta.env.VITE_API_KEY}`);
         return res.json();
     }
 
     const getCurrentWheather = async (lat, lon) => {
-        const res = await fetch(`${_apiCurrentBase}lat=${lat}&lon=${lon}&appid=${_apiKey}&units=metric`);
+        const res = await fetch(`${import.meta.env.VITE_API_CURRENT_BASE_URL}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric`);
         const data = await res.json();
         return _transformCurrentWeather(data);
     }
 
     const getWeeklyWheather = async (lat, lon, cnt = 7) => {
-        const res = await fetch(`${_apiWeekBase}lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${_apiKey}&units=metric`)
-        // console.log(res);
+        const res = await fetch(`${import.meta.env.VITE_API_WEEKLY_BASE_URL}lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${import.meta.env.VITE_API_KEY}&units=metric`)
         const data = await res.json();
         return data;
     }

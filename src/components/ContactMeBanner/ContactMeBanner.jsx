@@ -8,10 +8,10 @@ const ContactMeBanner = () => {
                 <EmailOutlinedIcon fontSize='large'/>
                 <div className='flex flex-col ml-5 text-white'>
                     <p>Hey There!</p>
-                    <p className='brightness-90'>If u liked my project, u can contact my via form. Just click this Button!</p>
+                    <p className='brightness-90 max-w-[40vw]'>If you liked my project, you can contact my via form. Just click this Button! →</p>
                 </div>
             </div>
-            <Link to='/contact-me' className='flex justify-center items-center rounded-xl bg-white w-[15vw]'> Contact Me</Link>
+            <Link to='/contact-me' className='flex justify-center whitespace-nowrap sm:x-7 max-sm:px-15 items-center rounded-xl bg-white w-[15vw]'> Contact Me</Link>
         </div>
     )
 }

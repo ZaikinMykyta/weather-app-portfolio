@@ -62,6 +62,7 @@ const SearchBanner = (props) => {
                  w-[90vw]
                  sm:w-[55vw]
                  md:w-[50vw]
+                 2xl:w-[30vw]
                  max-sm:w-[70vw]
                  max-sm:text-sm
                  h-[5vh]

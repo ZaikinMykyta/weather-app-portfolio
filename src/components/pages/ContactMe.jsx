@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import AppFooter from "../AppFooter/AppFooter";
 import AppHeaderContact from "../AppHeader/AppHeaderContact"
 import ContactForm from "../contactForm/ContactForm";
@@ -9,8 +11,9 @@ const ContactMe = () => {
             <main className="flex-grow flex items-center justify-center">
                 <ContactForm/>
             </main>
+            <Link to='/' className="text-white ml-[5vw]"> ← Go Back</Link>
             <footer>
-                <AppFooter/>
+                    <AppFooter/>
             </footer>
         </div>
     )

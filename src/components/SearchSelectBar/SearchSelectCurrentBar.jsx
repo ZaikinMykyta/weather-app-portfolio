@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import WeatherService from '../../services/WheatherService';
 
 const {getCity} = WeatherService();
@@ -10,8 +10,6 @@ const SearchSelectCurrentBar = (props) => {
     const [searchCity, setSearchCity] = useState('');
     const [sugestion, setSugestion] = useState([]);
     const debouceTimerRef = useRef(null);
-
-    const DEBOUNCE_MS = 1500;
 
     const ChooseCity = () => {
 
@@ -47,16 +45,16 @@ const SearchSelectCurrentBar = (props) => {
                     setSugestion([]);
                 })
             debouceTimerRef.current = null;
-        },DEBOUNCE_MS)
+        }, import.meta.env.VITE_DEBOUNCE_MS)
     }
     
     return (
-        <div className="flex w-full px-4 sm:px-6 max-sm:px-8md:px-10 
+        <div className="flex w-full px-4 sm:px-6 max-sm:px-8 md:px-10 
                 pr-4 sm:pr-5 items-center justify-between">
             <div className="flex flex-col px-3 items-start justify-start gap-2"
                 >
                 <div onClick={() => {ChooseCity(classes)}}>
-                    <div className="text-white">
+                    <div className="text-white opacity-50 ">
                         Location
                     </div>
                     <div className="text-white">
@@ -78,7 +76,7 @@ const SearchSelectCurrentBar = (props) => {
                                         onClick={() => {
                                             props.onCitySelected(item); 
                                             props.recentlyUsedPrep('name', item.name); 
-                                            ChooseCity(classes); 
+                                            ChooseCity(); 
                                             props.onCardShow(false)}}
                                         >
                                             {item.name}, {item.country}, {item.state}
@@ -87,8 +85,16 @@ const SearchSelectCurrentBar = (props) => {
                     </ul>
                 </div>
             </div>
-            <div className="w-[4vh] h-[4vh] cursor-pointer bg-green-500 
-                rounded-[35%] flex items-center justify-center"
+            <div className="w-[3vw] h-[3.5vh] 
+            2xl:w-[2.5vw] 2xl:h-[5vh]
+            xl:w-[4vw] xl:h-[5vh]
+            lg:w-[5vw] lg:h-[4.5vh]
+            md:w-[7vw] md:h-[4.5vh]
+            sm:w-[7vw] sm:h-[4.5vh]
+            max-sm:w-[13vw] max-sm:h-[5vh]
+            cursor-pointer bg-green-500 
+            rounded-[35%] flex 
+            items-center justify-center"
                 onClick={() => {
 
                     const iconUrl = props.city && props.city.icon ? `https://openweathermap.org/img/wn/${props.city.icon}@2x.png` : ''
