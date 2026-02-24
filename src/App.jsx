@@ -9,7 +9,7 @@ import {MainPage, ContactMe} from './components/pages/index'
 function App () {
 
     return (
-        <Router>
+        <Router basename="/weather-app-portfolio">
             <Suspense fallback={<Spinner/>}>
                         <Routes>
                             <Route path='/' element={<MainPage/>}/>
