@@ -42,6 +42,7 @@ jobs:
           VITE_API_CURRENT_BASE_URL: ${{ secrets.VITE_API_CURRENT_BASE_URL }}
           VITE_API_WEEKLY_BASE_URL: ${{ secrets.VITE_API_WEEKLY_BASE_URL }}
           VITE_DECODER_BASE_URL: ${{ secrets.VITE_DECODER_BASE_URL }}
+          VITE_DEBOUNCE_MS: ${{ secrets.VITE_DEBOUNCE_MS }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
