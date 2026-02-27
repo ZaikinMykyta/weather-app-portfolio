@@ -50,16 +50,6 @@ const ContactForm = () => {
         }
     };
 
-    const ContactForm = () => {
-
-        console.log(submitted)
-        return (
-            <>
-               
-            </>
-        )
-    }
-
     const OnSucessfulSubmission = () => {
         return (
             <div className='bg-[#E4F3E4] brightness-70'>
