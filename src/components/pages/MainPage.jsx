@@ -11,6 +11,7 @@ import RecentlyUsed from "../../components/RecentlyUsed/RecentlyUsed";
 import AppFooter from "../../components/AppFooter/AppFooter";
 import ContactMeBanner from "../ContactMeBanner/ContactMeBanner";
 import ErrorBoundary from "../ErrorBoundary/ErrorBoundary.jsx";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.jsx";
 
 const MainPage = () => {
     const [recentlyUsed, setRecentlyUsed] = useState([]);
@@ -21,7 +22,7 @@ const MainPage = () => {
     }, [recentlyUsed]);
 
     const {onRequestByCoords, onCitySelected, weatherSwitch, 
-        showCard, city, days, setDays, onCardShow, onShowSpinner, setCity, showSpinner, 
+        showCard, city, days, err, setDays, onCardShow, onShowSpinner, setCity, showSpinner, 
         onRequestByName, onWeatherSwitch} = Requests();
 
     const onRecentlyUsed = (newItem) => {
@@ -46,6 +47,7 @@ const MainPage = () => {
     const currentCard = showCard && !showSpinner ? <WheatherCurrentCard city={city}/> : null
     const weeklyCard = showCard && !showSpinner ? <WeatherWeeklyCards city={city}/> : null
     const spinner = showSpinner ? <Spinner/> : null
+    const error = err ? <ErrorMessage/> : null;
 
     return (
         <>
@@ -77,6 +79,7 @@ const MainPage = () => {
                                 days={days}
                                 setDays={setDays}/>
                 {weatherSwitch ? weeklyCard : currentCard}
+                {error}
                 {spinner}
                 <RecentlyUsed onCitySelected={onCitySelected}
                               recentlyUsedPrep={recentlyUsedPrep}

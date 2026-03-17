@@ -9,6 +9,7 @@ const Requests = () => {
     const [showSpinner, setShowSpinner] = useState(false);
     const [showCard, setShowCard] = useState(false);
     const [weatherSwitch, setWeatherSwitch] = useState(0);
+    const [err, setErr] = useState(false);
     const [days, setDays] = useState(0);
 
 
@@ -38,23 +39,31 @@ const Requests = () => {
                         console.log(data);
                         getCurrentWheather(data[0].lat, data[0].lon)
                             .then((data) => {
+                                setErr(false);
                                 onCitySelected(data);
                                 onShowSpinner(false);
                                 onCardShow(true);
                             })
                     })
-                    .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
+                    .catch((err) => {
+                        setErr(true);
+                        throw new Error('There has been some problem', {cause: err});
+                    })
             } else {
                 getCity(city, 1)
                     .then((data) => {
                         getWeeklyWheather(data[0].lat, data[0].lon, days)
                             .then((data) => {
+                                setErr(false);
                                 onCitySelected(data);
                                 onShowSpinner(false);
                                 onCardShow(true);
                             })
                     })
-                    .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
+                    .catch((err) => {
+                        setErr(true);
+                        throw new Error('There has been some problem', {cause: err});
+                    })
             }
         }
     }
@@ -63,23 +72,31 @@ const Requests = () => {
         if(day < 2) {
             getCurrentWheather(lat, lon)
                 .then(data => {
+                    setErr(false);
                     onCitySelected(data);
                     onShowSpinner(false);
                     onCardShow(true);
                 })
-                .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
+                .catch((err) => {
+                    setErr(true);
+                    throw new Error('There has been some problem', {cause: err});
+                })
         } else if(day > 1){
             getWeeklyWheather(lat, lon, day)
                 .then((data) => {
+                    setErr(false);
                     onCitySelected(data);
                     onShowSpinner(false);
                     onCardShow(true);
                 })
-                .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
+                .catch((err) => {
+                    setErr(true);
+                    throw new Error('There has been some problem', {cause: err});
+                })
         }
     }
 
-    return {onRequestByName, weatherSwitch, days, setDays, setWeatherSwitch, onWeatherSwitch, onCitySelected, showCard, city, onCardShow, onShowSpinner, setCity, showSpinner, onRequestByCoords};
+    return {onRequestByName, err, weatherSwitch, days, setDays, setWeatherSwitch, onWeatherSwitch, onCitySelected, showCard, city, onCardShow, onShowSpinner, setCity, showSpinner, onRequestByCoords};
 }
 
 export default Requests;
