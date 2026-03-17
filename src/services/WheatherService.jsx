@@ -25,7 +25,7 @@ const WeatherService = () => {
             description: props.weather[0].description,
             icon: `https://openweathermap.org/img/wn/${props.weather[0].icon}@2x.png`,
             dayTime: props.dt,
-            temp: props.main.temp + '℃',
+            temp: props.main.temp + ' ℃',
             temp_max: props.main.temp_max + '℃',
             temp_min: props.main.temp_min + '℃',
             feels_like: props.main.feels_like + '℃',
