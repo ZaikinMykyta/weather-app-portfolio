@@ -26,8 +26,6 @@ const WheatherCurrentCard = ({city}) => {
         }
     };
 
-    console.log(city.temp);
-
     return (
         <div className="flex justify-center items-center mt-6 sm:mt-8 px-3 sm:px-4 z-0 w-full max-w-5xl mx-auto">
             <div className={`
