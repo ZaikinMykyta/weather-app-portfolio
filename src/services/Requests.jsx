@@ -43,6 +43,7 @@ const Requests = () => {
                                 onCardShow(true);
                             })
                     })
+                    .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
             } else {
                 getCity(city, 1)
                     .then((data) => {
@@ -53,17 +54,20 @@ const Requests = () => {
                                 onCardShow(true);
                             })
                     })
+                    .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
             }
         }
     }
     
     const onRequestByCoords = (lat, lon, day=0) => {
         if(day < 2) {
-            getCurrentWheather(lat, lon).then(data => {
-                        onCitySelected(data);
-                        onShowSpinner(false);
-                        onCardShow(true);
-                    })
+            getCurrentWheather(lat, lon)
+                .then(data => {
+                    onCitySelected(data);
+                    onShowSpinner(false);
+                    onCardShow(true);
+                })
+                .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
         } else if(day > 1){
             getWeeklyWheather(lat, lon, day)
                 .then((data) => {
@@ -71,6 +75,7 @@ const Requests = () => {
                     onShowSpinner(false);
                     onCardShow(true);
                 })
+                .catch((err) => {throw new Error('There has been sompe roblem', {cause: err})})
         }
     }
 
