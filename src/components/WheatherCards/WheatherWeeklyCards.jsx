@@ -52,7 +52,7 @@ const WeatherWeeklyCards = ({city}) => {
                         <div className="flex justify-between items-start mb-4 sm:mb-6 relative z-10">
                             <div className="flex flex-col min-w-0">
                                 <p className="text-sm sm:text-base text-white/80 mb-1 sm:mb-2 truncate">{city.city.name}, {city.city.country}, {city.city.timezone}</p>
-                                <p className="text-4xl sm:text-5xl font-bold text-white">{(item.temp.min + item.temp.min)/2} ℃</p>
+                                <p className="text-4xl sm:text-5xl font-bold text-white">{Math.round((item.temp.min + item.temp.min)/2)} ℃</p>
                             </div>
                             
                             <div className="flex flex-col items-end shrink-0">
