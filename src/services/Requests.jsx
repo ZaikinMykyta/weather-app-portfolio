@@ -6,6 +6,7 @@ const Requests = () => {
     const {getCity, getCurrentWheather, getWeeklyWheather} = WeatherService();
 
     const [city, setCity] = useState({});
+    const [bannerCity, setBannerCity] = useState({});
     const [showSpinner, setShowSpinner] = useState(false);
     const [showCard, setShowCard] = useState(false);
     const [weatherSwitch, setWeatherSwitch] = useState(0);
@@ -16,9 +17,22 @@ const Requests = () => {
     const onWeatherSwitch = (bool) => {
         setWeatherSwitch(bool);
     }
-    const onCitySelected = (city) => {
-        setCity(city);
+    const onBannerCitySelected = (selectedCity) => {
+        setBannerCity(selectedCity);
         setShowCard(false);
+    }
+
+    const onCitySelected = (selectedCity) => {
+        onBannerCitySelected(selectedCity);
+    }
+
+    const onWeatherLoaded = (weatherData) => {
+        setCity(weatherData);
+        setBannerCity({});
+        setDays(0);
+        setErr(false);
+        setShowSpinner(false);
+        setShowCard(true);
     }
 
     const onShowSpinner = (bool) => {
@@ -42,14 +56,12 @@ const Requests = () => {
                         return getCurrentWheather(data[0].lat, data[0].lon);
                     })
                     .then((data) => {
-                        setErr(false);
-                        onCitySelected(data);
-                        onShowSpinner(false);
-                        onCardShow(true);
+                        onWeatherLoaded(data);
                     })
                     .catch(() => {
                         setErr(true);
                         onShowSpinner(false);
+                        onCardShow(false);
                     })
             } else {
                 getCity(city, 1)
@@ -60,14 +72,12 @@ const Requests = () => {
                         return getWeeklyWheather(data[0].lat, data[0].lon, days);
                     })
                     .then((data) => {
-                        setErr(false);
-                        onCitySelected(data);
-                        onShowSpinner(false);
-                        onCardShow(true);
+                        onWeatherLoaded(data);
                     })
                     .catch(() => {
                         setErr(true);
                         onShowSpinner(false);
+                        onCardShow(false);
                     })
             }
         }
@@ -77,31 +87,27 @@ const Requests = () => {
         if(day < 2) {
             getCurrentWheather(lat, lon)
                 .then(data => {
-                    setErr(false);
-                    onCitySelected(data);
-                    onShowSpinner(false);
-                    onCardShow(true);
+                    onWeatherLoaded(data);
                 })
                 .catch(() => {
                     setErr(true);
                     onShowSpinner(false);
+                    onCardShow(false);
                 })
         } else if(day > 1){
             getWeeklyWheather(lat, lon, day)
                 .then((data) => {
-                    setErr(false);
-                    onCitySelected(data);
-                    onShowSpinner(false);
-                    onCardShow(true);
+                    onWeatherLoaded(data);
                 })
                 .catch(() => {
                     setErr(true);
                     onShowSpinner(false);
+                    onCardShow(false);
                 })
         }
     }
 
-    return {onRequestByName, err, weatherSwitch, days, setDays, setWeatherSwitch, onWeatherSwitch, onCitySelected, showCard, city, onCardShow, onShowSpinner, setCity, showSpinner, onRequestByCoords};
+    return {onRequestByName, err, weatherSwitch, days, setDays, setWeatherSwitch, onWeatherSwitch, onCitySelected, onBannerCitySelected, showCard, city, bannerCity, setBannerCity, onCardShow, onShowSpinner, setCity, showSpinner, onRequestByCoords};
 }
 
 export default Requests;

@@ -1,29 +1,27 @@
 const WindCard = ({ wind_speed, wind_deg }) => {
     if (wind_deg == null) return null;
 
+    const speedLabel = typeof wind_speed === 'string' ? wind_speed : `${wind_speed} m/s`;
+
     return (
-        <div className="bg-[#2F2F2F]/80 backdrop-blur-sm 
-        col-span-1 
-        sm:col-span-2 
+        <div className="bg-[#2F2F2F]/80 backdrop-blur-sm h-full
         rounded-xl 
         px-3 
         sm:px-4
+        py-3
         sm:pt-4
-        max-sm:py-3
-        max-sm:px-1
         border 
         border-white/5 
         shadow-md">
-            <p className="text-xs text-white/60 max-sm:mb-0 max-sm:p-2 mb-4">Wind</p>
+            <p className="text-xs text-white/60 mb-3 sm:mb-4">Wind</p>
             
-            <div className="flex flex-col max-sm:p-1 items-center justify-between sm:gap-1 gap-4">
-                <div>
-                    <p className="text-2xl sm:text-3xl max-sm:text-xl sm:mt-[-0.5vh] font-semibold text-white">{wind_speed}</p>
-                    <p className="text-xs text-white/60 mt-1">km/h</p>
+            <div className="flex flex-col items-center justify-between gap-3 sm:gap-4">
+                <div className="text-center">
+                    <p className="text-xl sm:text-2xl font-semibold text-white">{speedLabel}</p>
                 </div>
 
-                <div className="flex-1 flex justify-center">
-                    <div className="relative w-[5vh] h-[5vh] sm:w-24 sm:h-24">
+                <div className="flex justify-center">
+                    <div className="relative w-20 h-20 sm:w-24 sm:h-24">
                         <svg
                             viewBox="0 0 100 100"
                             className="w-full h-full"
@@ -66,9 +64,9 @@ const WindCard = ({ wind_speed, wind_deg }) => {
                     </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-center">
                     <p className="text-lg sm:text-xl font-semibold text-white">{wind_deg}°</p>
-                    <p className="text-xs text-center text-white/60 mt-1">
+                    <p className="text-xs text-white/60 mt-1">
                         {getWindDirection(wind_deg)}
                     </p>
                 </div>

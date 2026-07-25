@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import WeatherService from '../../services/WheatherService';
 
 const {getCity} = WeatherService();
@@ -14,6 +14,13 @@ const SearchSelectWeeklyBanner = (props) => {
     const debouceTimerRef = useRef(null);
 
     const DEBOUNCE_MS = 1500;
+
+    useEffect(() => {
+        if (!props.bannerCity?.name) {
+            setSearchCity('');
+            setSugestion([]);
+        }
+    }, [props.bannerCity]);
 
     const ChooseCity = () => {
         if(!showCity) {
@@ -106,7 +113,7 @@ const SearchSelectWeeklyBanner = (props) => {
                         Location
                     </div>
                     <div className="text-white font-medium text-base truncate mt-1">
-                        {props.city.name ? props.city.name : 'Choose your city'}
+                        {props.bannerCity?.name ?? 'Choose your city'}
                     </div>
                 </div>
                 <div onClick={(e) => {onRequestMenus(e.target)}}
@@ -210,7 +217,15 @@ const SearchSelectWeeklyBanner = (props) => {
             cursor-pointer bg-green-500 
             rounded-[35%] flex 
             items-center justify-center"
-             onClick={() => {if(props.days){props.onRequest(props.city.name, props.days); props.onShowSpinner(true); props.onRecentlyUsed(props.recentlyUsedObj); props.setDays(0); setSearchCity('')}}}>
+             onClick={() => {
+                const cityName = props.bannerCity?.name;
+                if (props.days && cityName) {
+                    props.onRequest(cityName, props.days);
+                    props.onShowSpinner(true);
+                    props.onRecentlyUsed(props.recentlyUsedObj);
+                    setSearchCity('');
+                }
+             }}>
             <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="Search" />
         </div>
     </div>

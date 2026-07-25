@@ -21,8 +21,8 @@ const MainPage = () => {
         window.localStorage.setItem('recently used', JSON.stringify(recentlyUsed));
     }, [recentlyUsed]);
 
-    const {onRequestByCoords, onCitySelected, weatherSwitch, 
-        showCard, city, days, err, setDays, onCardShow, onShowSpinner, setCity, showSpinner, 
+    const {onRequestByCoords, onCitySelected, onBannerCitySelected, weatherSwitch, 
+        showCard, city, bannerCity, days, err, setDays, onCardShow, onShowSpinner, setCity, setBannerCity, showSpinner, 
         onRequestByName, onWeatherSwitch} = Requests();
 
     const onRecentlyUsed = (newItem) => {
@@ -44,8 +44,8 @@ const MainPage = () => {
         setRecentlyUsedObj({...recentlyUsedObj, [newKey]: newVal});
     }
 
-    const currentCard = showCard && !showSpinner ? <WheatherCurrentCard city={city}/> : null
-    const weeklyCard = showCard && !showSpinner ? <WeatherWeeklyCards city={city}/> : null
+    const currentCard = showCard && !showSpinner && city?.name ? <WheatherCurrentCard city={city}/> : null
+    const weeklyCard = showCard && !showSpinner && city?.city?.name ? <WeatherWeeklyCards city={city}/> : null
     const spinner = showSpinner ? <Spinner/> : null
     const error = err ? <ErrorMessage/> : null;
 
@@ -56,18 +56,20 @@ const MainPage = () => {
                             showCard={showCard}
                             setDays={setDays}
                             onCardShow={onCardShow}
-                            onCitySelected={onCitySelected}
+                            onCitySelected={onBannerCitySelected}
                             weatherSwitch={weatherSwitch}
                             onWeatherSwitch={onWeatherSwitch}
                             onRequest={onRequestByName}
                             onRequestByCoords={onRequestByCoords}
                             setCity={setCity}
+                            setBannerCity={setBannerCity}
                             recentlyUsedObj={recentlyUsedObj}
                             recentlyUsedPrep={recentlyUsedPrep}/>
             </ErrorBoundary>
             <main className="flex flex-col items-center w-full min-h-screen px-2 sm:px-4 box-border">
                 <SearchBanner onShowSpinner={onShowSpinner}
-                                onCitySelected={onCitySelected}
+                                onCitySelected={onBannerCitySelected}
+                                bannerCity={bannerCity}
                                 city={city}
                                 onRequest={onRequestByCoords}
                                 onRequestByName={onRequestByName}
@@ -81,7 +83,7 @@ const MainPage = () => {
                 {weatherSwitch ? weeklyCard : currentCard}
                 {error}
                 {spinner}
-                <RecentlyUsed onCitySelected={onCitySelected}
+                <RecentlyUsed onCitySelected={onBannerCitySelected}
                               recentlyUsedPrep={recentlyUsedPrep}
                               city={city}
                               onWeatherSwitch={onWeatherSwitch}

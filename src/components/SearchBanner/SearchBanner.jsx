@@ -6,16 +6,16 @@ const SearchBanner = (props) => {
     const SearchCurrentBanner = props.weatherSwitch === 0 ? <SearchSelectCurrentBar onCardShow={props.onCardShow}
                                 onShowSpinner={props.onShowSpinner} 
                                 onCitySelected={props.onCitySelected} 
-                                city={props.city} 
-                                onRequest={props.onRequest}
+                                bannerCity={props.bannerCity}
                                 recentlyUsedObj={props.recentlyUsedObj}
                                 recentlyUsedPrep={props.recentlyUsedPrep}
-                                onRecentlyUsed={props.onRecentlyUsed}/> : null;
+                                onRecentlyUsed={props.onRecentlyUsed}
+                                onRequest={props.onRequest}/> : null;
 
     const SearchWeeklyBanner = props.weatherSwitch === 1 ? <SearchSelectWeeklyBanner onCardShow={props.onCardShow}
                                 onShowSpinner={props.onShowSpinner} 
                                 onCitySelected={props.onCitySelected} 
-                                city={props.city} 
+                                bannerCity={props.bannerCity}
                                 onRequest={props.onRequestByName}
                                 recentlyUsedObj={props.recentlyUsedObj}
                                 recentlyUsedPrep={props.recentlyUsedPrep}

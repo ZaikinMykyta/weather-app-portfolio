@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import WeatherService from '../../services/WheatherService';
 
 const {getCity} = WeatherService();
@@ -10,6 +10,13 @@ const SearchSelectCurrentBar = (props) => {
     const [searchCity, setSearchCity] = useState('');
     const [sugestion, setSugestion] = useState([]);
     const debouceTimerRef = useRef(null);
+
+    useEffect(() => {
+        if (!props.bannerCity?.name) {
+            setSearchCity('');
+            setSugestion([]);
+        }
+    }, [props.bannerCity]);
 
     const ChooseCity = () => {
 
@@ -58,7 +65,7 @@ const SearchSelectCurrentBar = (props) => {
                         Location
                     </div>
                     <div className="text-white">
-                        {props.city.name ? props.city.name : 'Choose your city'}
+                        {props.bannerCity?.name ?? 'Choose your city'}
                     </div>
                 </div>
                 <div className={classes}>
@@ -96,17 +103,23 @@ const SearchSelectCurrentBar = (props) => {
             rounded-[35%] flex 
             items-center justify-center"
                 onClick={() => {
+                    if (!props.bannerCity?.lat || !props.bannerCity?.lon) {
+                        return;
+                    }
 
-                    const iconUrl = props.city && props.city.icon ? `https://openweathermap.org/img/wn/${props.city.icon}@2x.png` : ''
+                    const iconUrl = props.bannerCity.icon
+                        ? `https://openweathermap.org/img/wn/${props.bannerCity.icon}@2x.png`
+                        : '';
 
                     const newItem = {
                         ...props.recentlyUsedObj,
                         icon: iconUrl
-                    }
+                    };
 
-                    props.onRequest(props.city.lat, props.city.lon);
+                    props.onRequest(props.bannerCity.lat, props.bannerCity.lon);
                     props.onShowSpinner(true);
-                    props.onRecentlyUsed(newItem)
+                    props.onRecentlyUsed(newItem);
+                    setSearchCity('');
                     }}>
                 <img className="w-[3vh] h-[3vh]" src="https://static.thenounproject.com/png/888647-200.png" alt="" />
             </div>

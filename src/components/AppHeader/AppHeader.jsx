@@ -48,6 +48,7 @@ function AppHeader(props) {
         props.recentlyUsedPrep('days', '');
         props.onCardShow(false)
         props.setCity({})
+        props.setBannerCity?.({})
     }
 
     const ChooseCity = () => {

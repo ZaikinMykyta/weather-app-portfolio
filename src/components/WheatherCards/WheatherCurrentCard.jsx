@@ -67,24 +67,28 @@ const WheatherCurrentCard = ({city}) => {
                     )}
                 </div>
 
-                <div className="grid grid-cols-1 max-sm:grid-cols-3 sm:grid-cols-3 gap-3 max-sm:gap-2 sm:gap-4 relative z-10">
-                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                        <p className="text-xs text-white/60 mb-1">Feels like</p>
-                        <p className="text-base sm:text-lg font-semibold text-white">{city.feels_like}</p>
+                <div className="flex flex-col gap-3 sm:gap-4 relative z-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                            <p className="text-xs text-white/60 mb-1">Feels like</p>
+                            <p className="text-base sm:text-lg font-semibold text-white">{city.feels_like}</p>
+                        </div>
+                        <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                            <p className="text-xs text-white/60 mb-1">Humidity</p>
+                            <p className="text-base sm:text-lg font-semibold text-white">{city.humidity}</p>
+                        </div>
+                        <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
+                            <p className="text-xs text-white/60 mb-1">Visibility</p>
+                            <p className="text-base sm:text-lg font-semibold text-white">{city.visibility}</p>
+                        </div>
                     </div>
-                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                        <p className="text-xs text-white/60 mb-1">Humidity</p>
-                        <p className="text-base sm:text-lg font-semibold text-white">{city.humidity}</p>
-                    </div>
-                    <div className="bg-[#2F2F2F]/80 backdrop-blur-sm rounded-xl p-3 sm:p-4 border border-white/5 shadow-md">
-                        <p className="text-xs text-white/60 mb-1">Visibility</p>
-                        <p className="text-base sm:text-lg font-semibold text-white">{city.visibility}</p>
-                    </div>
-                    <div className="grid col-span-2 gap-3 h-[22vh] sm:gap-4">
-                        <SunCard sunrise={city.sunrise} sunset={city.sunset} />
-                    </div>
-                    <div className="grid gap-3 sm:gap-4">
-                        <WindCard wind_speed={city.wind_speed} wind_deg={city.wind_deg} />
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+                        <div className="sm:col-span-2 min-h-[180px]">
+                            <SunCard sunrise={city.sunrise} sunset={city.sunset} />
+                        </div>
+                        <div className="min-h-[180px]">
+                            <WindCard wind_speed={city.wind_speed} wind_deg={city.wind_deg} />
+                        </div>
                     </div>
                 </div>
 
