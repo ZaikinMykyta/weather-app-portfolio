@@ -39,10 +39,10 @@ jobs:
         env:
           NODE_ENV: production
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-          VITE_API_CURRENT_BASE_URL: ${{ secrets.VITE_API_CURRENT_BASE_URL }}
-          VITE_API_WEEKLY_BASE_URL: ${{ secrets.VITE_API_WEEKLY_BASE_URL }}
-          VITE_DECODER_BASE_URL: ${{ secrets.VITE_DECODER_BASE_URL }}
-          VITE_DEBOUNCE_MS: ${{ secrets.VITE_DEBOUNCE_MS }}
+          VITE_API_CURRENT_BASE_URL: https://api.openweathermap.org/data/2.5/weather?
+          VITE_API_WEEKLY_BASE_URL: https://api.openweathermap.org/data/2.5/forecast?
+          VITE_DECODER_BASE_URL: https://api.openweathermap.org/geo/1.0/direct?
+          VITE_DEBOUNCE_MS: 1000
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

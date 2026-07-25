@@ -12,9 +12,51 @@ const WeatherService = () => {
     }
 
     const getWeeklyWheather = async (lat, lon, cnt = 7) => {
-        const res = await fetch(`${import.meta.env.VITE_API_WEEKLY_BASE_URL}lat=${lat}&lon=${lon}&cnt=${cnt}&appid=${import.meta.env.VITE_API_KEY}&units=metric`)
+        const res = await fetch(`${import.meta.env.VITE_API_WEEKLY_BASE_URL}lat=${lat}&lon=${lon}&appid=${import.meta.env.VITE_API_KEY}&units=metric`);
         const data = await res.json();
-        return data;
+
+        if (!res.ok || (data.cod && data.cod !== 200 && data.cod !== '200')) {
+            throw new Error(data.message || 'Failed to fetch weekly forecast');
+        }
+
+        return _transformWeeklyForecast(data, cnt);
+    }
+
+    const _transformWeeklyForecast = (data, daysCount) => {
+        const grouped = {};
+
+        for (const item of data.list) {
+            const date = new Date(item.dt * 1000).toISOString().split('T')[0];
+            if (!grouped[date]) {
+                grouped[date] = { items: [], dt: item.dt };
+            }
+            grouped[date].items.push(item);
+        }
+
+        const list = Object.values(grouped).slice(0, daysCount).map(({ items, dt }) => {
+            const midItem = items.reduce((best, current) => {
+                const hour = new Date(current.dt * 1000).getHours();
+                const bestHour = new Date(best.dt * 1000).getHours();
+                return Math.abs(hour - 12) < Math.abs(bestHour - 12) ? current : best;
+            });
+
+            return {
+                dt,
+                temp: {
+                    min: Math.min(...items.map((item) => item.main.temp_min)),
+                    max: Math.max(...items.map((item) => item.main.temp_max)),
+                },
+                feels_like: items.reduce((sum, item) => sum + item.main.feels_like, 0) / items.length,
+                humidity: Math.round(items.reduce((sum, item) => sum + item.main.humidity, 0) / items.length),
+                weather: midItem.weather,
+                speed: midItem.wind.speed,
+                deg: midItem.wind.deg,
+                sunrise: data.city.sunrise,
+                sunset: data.city.sunset,
+            };
+        });
+
+        return { city: data.city, list };
     }
 
     const _transformCurrentWeather = (props) => {
